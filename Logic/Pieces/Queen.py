@@ -13,15 +13,21 @@ class Queen(Pieces):
         rank_pos = int(self.position[1])
 
         # Vertical
-        possible_move.extend(chess_board[file_pos])
+        possible_move.extend(chess_board[file_pos - 1])
 
         # Horizontal
-        possible_move.extend([chess_board[x][rank_pos-1] for x in range(len(rank))])
+        possible_move.extend([chess_board[x][rank_pos - 1] for x in range(8)])
 
         # Diagonal
-        
+        for x in range(1, 9):
+            delta_pos = rank_pos - x
 
-        # possible_move.append()
-        print("r: ", rank_pos, " f: ", file_pos)
-        # possible_move = set(possible_move)
-        print(set(possible_move))
+            if 0 < file_pos - delta_pos <= 8:
+                file_letter = convert_file(file_pos - delta_pos)
+                possible_move.append(file_letter + str(rank_pos - delta_pos))
+
+            if 0 < file_pos + delta_pos <= 8:
+                file_letter = convert_file(file_pos + delta_pos)
+                possible_move.append(file_letter + str(rank_pos - delta_pos))
+
+        return list(set(possible_move))
