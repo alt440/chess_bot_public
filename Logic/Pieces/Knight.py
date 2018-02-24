@@ -3,8 +3,16 @@ from Logic.Chessboard import *
 
 
 class Knight(Pieces):
-    def __init__(self, position, piece_type, value, color):
-        Pieces.__init__(self, position, piece_type, value, color)
+    # It would probably make more sense to create a default constructor for position, value and piece_type
+    # How would you determine which position (since every player has two pieces)
+    def __init__(self, color):
+        if color == "white":
+            Pieces.__init__(self, "b1", "knight", 3, color)
+        else:
+            Pieces.__init__(self, "b8", "knight", 3, color)
+
+    def __str__(self):
+        return ("You are in class Knight my I am at position {} and {}".format(self.getPosition(), self.getColor()))
 
     def move(self):
         # Setup

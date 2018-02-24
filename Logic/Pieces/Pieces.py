@@ -34,6 +34,21 @@ class Pieces:
     defence_value = 0
     attack_value = 0
 
+    def getPosition(self):
+        return self.position
+
+    def getType(self):
+        return self.Type
+
+    def getVAlue(self):
+        return self.value
+
+    def getColor(self):
+        return self.color
+
+    def getStatus(self):
+        return self.status
+
     def __init__(self, position, piece_type, value, color):
         self.position = position
         self.type = piece_type
