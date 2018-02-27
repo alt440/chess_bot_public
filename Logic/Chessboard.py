@@ -10,8 +10,6 @@ def getRank():
 def getFile():
     return file
 
-def getPostion():
-    return [getFile(), getRank()]
 
 # With this position can check the status of every positioj on the board
 def isOccupied(rank, file):
