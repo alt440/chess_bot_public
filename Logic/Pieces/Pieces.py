@@ -27,12 +27,13 @@ file_value = dict(a=1, b=2, c=3, d=4, e=5, f=6, g=7, h=8)
 class Pieces:
     # Example for black bishop (starting position)
     position = "c8"
-    type = "B"
-    value = 3
+    type = "B"  # Type of piece (eg. Bishop = 'B')
+    value = 3  # Value of the piece for the pruning
     color = "b"
     status = 0
     defence_value = 0
     attack_value = 0
+    attack_radius = 1  # Radius where the Piece can attack
 
     def __init__(self, position, piece_type, value, color):
         self.position = position
@@ -44,12 +45,12 @@ class Pieces:
     Remove r and override it in children class instead.
     '''
     # Top Right
-    def dig_top_right(self, r):
+    def dig_top_right(self):
         line = []
         x = convert_file(self.position[0])
         y = int(self.position[1])
 
-        for i in range(1, r):
+        for i in range(1, self.attack_radius):
             if x + i <= 8:
                 line.append(convert_file(x + i) + str(y + i))
             else:
@@ -57,12 +58,12 @@ class Pieces:
         return line
 
     # Top Left
-    def dig_top_left(self, r):
+    def dig_top_left(self):
         line = []
         x = convert_file(self.position[0])
         y = int(self.position[1])
 
-        for i in range(1, r):
+        for i in range(1, self.attack_radius):
             if y + i <= 8 and x - i > 0:
                 line.append(convert_file(x - i) + str(y + i))
             else:
@@ -70,12 +71,12 @@ class Pieces:
         return line
 
     # Bottom Left
-    def dig_bottom_left(self, r):
+    def dig_bottom_left(self):
         line = []
         x = convert_file(self.position[0])
         y = int(self.position[1])
 
-        for i in range(1, r):
+        for i in range(1, self.attack_radius):
             if x - i > 0:
                 line.append(convert_file(x - i) + str(y - i))
             else:
@@ -83,12 +84,12 @@ class Pieces:
         return line
 
     # Bottom Right
-    def dig_bottom_right(self, r):
+    def dig_bottom_right(self):
         line = []
         x = convert_file(self.position[0])
         y = int(self.position[1])
 
-        for i in range(1, r):
+        for i in range(1, self.attack_radius):
             if x + i <= 8 and y - i > 0:
                 line.append(convert_file(x + i) + str(y - i))
             else:

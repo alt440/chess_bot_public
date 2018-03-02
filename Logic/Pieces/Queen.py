@@ -22,7 +22,7 @@ class Queen(Pieces):
         for x in range(1, 9):
             delta_pos = rank_pos - x
 
-            if 0 < file_pos - delta_pos <= 8:
+            if 0 < file_pos - delta_pos <= 8
                 file_letter = convert_file(file_pos - delta_pos)
                 possible_move.append(file_letter + str(rank_pos - delta_pos))
 
