@@ -20,7 +20,7 @@ class Rook(Pieces):
 
     def moves(self):
         """
-        Returns all possible moves for the Queen.
+        Returns all possible moves for the Rook.
 
         :return: List of the possible moves
         :rtype list
