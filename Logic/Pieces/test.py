@@ -3,7 +3,7 @@ from Logic.Pieces.Knight import *
 from Logic.Chessboard import *
 from Logic.Pieces.Pieces import *
 
-p = Queen("a1", 0)
+p = Queen("d4", 0)
 # k.move()
 
 # printChess()

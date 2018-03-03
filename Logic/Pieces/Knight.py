@@ -1,5 +1,5 @@
-from Logic.Pieces.Pieces import *
-from Logic.Chessboard import *
+from Logic.Pieces.Pieces import Pieces
+from Logic.Chessboard import convert_file
 
 
 class Knight(Pieces):
