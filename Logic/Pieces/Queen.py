@@ -14,7 +14,7 @@ class Queen(Pieces):
 
     def __init__(self, position, color):
         """
-        Create a Queen Based on the Piece class.
+        Create a Queen based on the Piece class.
 
         :param position: Position on the chessboard
         :param color: Color of hte Piece: white::0, black::1
