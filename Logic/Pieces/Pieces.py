@@ -17,6 +17,12 @@ class Pieces:
     TYPE = ""
 
     def __init__(self, position, color):
+        """
+        Create a Piece.
+
+        :param position: Position on the chessboard
+        :param color: Color of hte Piece: white::0, black::1
+        """
         self.position = position
         self.COLOR = color
         self.status = 0

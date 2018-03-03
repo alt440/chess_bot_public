@@ -1,3 +1,10 @@
+"""
+Contains methods that return the possible move for a diagonal.
+
+There is 4 diagonals, one for each quadrant of a cartesian plan
+(top-right, top-left, bottom-left, bottom-right).
+"""
+
 from Logic.Chessboard import convert_file
 
 
