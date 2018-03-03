@@ -1,33 +1,35 @@
 from Logic.Pieces.Pieces import Pieces
-from Logic.Chessboard import *
+from Logic.Pieces.Movement.Diagonal import diagonal_top_left, diagonal_bottom_right, diagonal_bottom_left, \
+    diagonal_top_right
+
 
 
 class Queen(Pieces):
-    def __init__(self, position, piece_type, value, color):
-        Pieces.__init__(self, position, piece_type, value, color)
+    """
+    Represent the pieces of type Queen.
+    """
+    VALUE = 90
+    RADIUS = 8
+    TYPE = "Q"
 
-    def move(self):
-        # Setup
-        possible_move = list()
-        file_pos = int(convert_file(self.position[0]))
-        rank_pos = int(self.position[1])
+    def __init__(self, position, color):
+        """
+        Create a Queen Based on the Piece class.
 
-        # Vertical
-        possible_move.extend(chess_board[file_pos - 1])
+        :param position: Position on the chessboard
+        :param color: Color of hte Piece: white::0, black::1
+        """
+        Pieces.__init__(self, position, color)
 
-        # Horizontal
-        possible_move.extend([chess_board[x][rank_pos - 1] for x in range(8)])
+    def moves(self):
+        """
+        Returns all possible moves for the Queen.
 
-        # Diagonal
-        for x in range(1, 9):
-            delta_pos = rank_pos - x
-
-            if 0 < file_pos - delta_pos <= 8:
-                file_letter = convert_file(file_pos - delta_pos)
-                possible_move.append(file_letter + str(rank_pos - delta_pos))
-
-            if 0 < file_pos + delta_pos <= 8:
-                file_letter = convert_file(file_pos + delta_pos)
-                possible_move.append(file_letter + str(rank_pos - delta_pos))
-
-        return list(set(possible_move))
+        :return: List of the possible moves
+        :rtype list
+        """
+        return [y for x in [diagonal_top_right(self),
+                            diagonal_top_left(self),
+                            diagonal_bottom_left(self),
+                            diagonal_bottom_right(self)]
+                for y in x]
