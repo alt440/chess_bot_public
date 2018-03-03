@@ -1,7 +1,7 @@
 from Logic.Pieces.Pieces import Pieces
 from Logic.Pieces.Movement.Diagonal import diagonal_top_left, diagonal_bottom_right, diagonal_bottom_left, \
     diagonal_top_right
-
+from Logic.Pieces.Movement.Line import line_bottom, line_left, line_right, line_top
 
 
 class Queen(Pieces):
@@ -31,5 +31,9 @@ class Queen(Pieces):
         return [y for x in [diagonal_top_right(self),
                             diagonal_top_left(self),
                             diagonal_bottom_left(self),
-                            diagonal_bottom_right(self)]
+                            diagonal_bottom_right(self),
+                            line_right(self),
+                            line_top(self),
+                            line_left(self),
+                            line_bottom(self)]
                 for y in x]
