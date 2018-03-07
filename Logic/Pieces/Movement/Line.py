@@ -6,6 +6,7 @@ There is 4 lines, one for each axis and direction on a cartesian plan
 """
 
 from Logic.Chessboard import convert_file
+from Logic.Chessboard import position_status
 
 
 def line_right(self):
@@ -21,8 +22,14 @@ def line_right(self):
     y = int(self.position[1])
 
     for i in range(1, 8):
-        if x + i <= 8:
-            line.append(convert_file(x + i) + str(y))
+        if x + i <= 8:  # Verify if out of board
+            new_pos = convert_file(x + i) + str(y)
+            pos_status = position_status(self, new_pos)
+            # Verify if the piece can go there
+            if pos_status >= 0:
+                line.append(new_pos)
+            if pos_status != 0:
+                break
         else:
             break
     return line
@@ -41,8 +48,14 @@ def line_top(self):
     y = int(self.position[1])
 
     for i in range(1, 8):
-        if y + i <= 8:
-            line.append(convert_file(x) + str(y + i))
+        if y + i <= 8:  # Verify if out of board
+            new_pos = convert_file(x) + str(y + i)
+            pos_status = position_status(self, new_pos)
+            # Verify if the piece can go there
+            if pos_status >= 0:
+                line.append(new_pos)
+            if pos_status != 0:
+                break
         else:
             break
     return line
@@ -61,8 +74,14 @@ def line_left(self):
     y = int(self.position[1])
 
     for i in range(1, 8):
-        if x - i > 0:
-            line.append(convert_file(x - i) + str(y))
+        if x - i > 0:  # Verify if out of board
+            new_pos = convert_file(x - i) + str(y)
+            pos_status = position_status(self, new_pos)
+            # Verify if the piece can go there
+            if pos_status >= 0:
+                line.append(new_pos)
+            if pos_status != 0:
+                break
         else:
             break
     return line
@@ -81,8 +100,14 @@ def line_bottom(self):
     y = int(self.position[1])
 
     for i in range(1, 8):
-        if y - i > 0:
-            line.append(convert_file(x) + str(y - i))
+        if y - i > 0:  # Verify if out of board
+            new_pos = convert_file(x) + str(y - i)
+            pos_status = position_status(self, new_pos)
+            # Verify if the piece can go there
+            if pos_status >= 0:
+                line.append(new_pos)
+            if pos_status != 0:
+                break
         else:
             break
     return line

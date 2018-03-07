@@ -28,7 +28,7 @@ def convert_file(f):
     return file_value.get(f)
 
 
-def is_occupied(self, position):
+def position_status(self, position):
     """
     Returns if their is already a piece on the case.
 
@@ -36,7 +36,7 @@ def is_occupied(self, position):
     :param position: Position to be compared to
     :return: -1 if is occupied by a piece of the same color,
             0 if their is no piece,
-            1 if their is a piece o the opposite color
+            1 if their is a piece of the opposite color
     """
 
     if position in piece_location.keys():
