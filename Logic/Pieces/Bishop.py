@@ -25,7 +25,7 @@ class Bishop(Pieces):
         Returns all possible moves for the Bishop.
 
         :return: List of the possible moves
-        :rtype listOK
+        :rtype list
         """
         return [y for x in [diagonal_top_right(self),
                             diagonal_top_left(self),
