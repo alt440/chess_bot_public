@@ -46,3 +46,9 @@ def position_status(self, position):
             return 1
     else:
         return 0
+
+def add_piece_location(self, position, piece):
+    """
+    Add the position to the dictionary of piece_location
+    """
+    piece_location[position]=piece

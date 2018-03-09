@@ -1,5 +1,6 @@
 from Logic.Pieces.Pieces import Pieces
 from Logic.Chessboard import convert_file
+from Logic.Chessboard import add_piece_location
 
 
 class Knight(Pieces):
@@ -15,6 +16,7 @@ class Knight(Pieces):
         :param color: Color of hte Piece: white::0, black::1
         """
         Pieces.__init__(self, position, color)
+        #add_piece_location(
 
     def moves(self):
         """

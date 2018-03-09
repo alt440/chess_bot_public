@@ -44,7 +44,7 @@ def diagonal_top_left(self):
     :rtype list
     """
     diagonal = []
-    x = convert_file(self.position[0])
+    x = convert_file(self.position[0])#convert_file method in chessboard.py
     y = int(self.position[1])
 
     for i in range(1, self.RADIUS):

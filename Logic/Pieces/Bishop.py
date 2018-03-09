@@ -26,6 +26,7 @@ class Bishop(Pieces):
 
         :return: List of the possible moves
         :rtype list
+        Methods from Logic.Pieces.Movement.Diagonal
         """
         return [y for x in [diagonal_top_right(self),
                             diagonal_top_left(self),
