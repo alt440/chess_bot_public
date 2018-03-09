@@ -15,8 +15,7 @@ class Knight(Pieces):
         :param position: Position on the chessboard
         :param color: Color of hte Piece: white::0, black::1
         """
-        Pieces.__init__(self, position, color)
-        #add_piece_location(
+        Pieces.__init__(self, position, color,"N")
 
     def moves(self):
         """

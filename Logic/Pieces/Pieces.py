@@ -14,9 +14,9 @@ class Pieces:
 
     VALUE = 0
     RADIUS = 0
-    TYPE = ""
+    TYPE = ""#should type be a ivar instead? we have to know the type of the piece.
 
-    def __init__(self, position, color):
+    def __init__(self, position, color, TYPE):#add TYPE parameter to add to chessboard dictionary?
         """
         Create a Piece.
 
@@ -26,6 +26,8 @@ class Pieces:
         self.position = position
         self.COLOR = color
         self.status = 0
+        self.TYPE = TYPE
+        ChessBoard.add_piece_location(position, piece+color)#is it ok? made add_piece_location static
 
     def moves(self):
         """"

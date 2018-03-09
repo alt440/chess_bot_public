@@ -15,6 +15,12 @@ chess_board = [[str(x) + str(y) for y in rank] for x in file]
 # Store the the location for every piece in the format {location : piece}
 piece_location = dict()
 
+"""
+We could store the locations of the pieces more easily by making a 2D array
+with the location being the position inside the array
+"""
+piece_location_chessboard_view = [[None for y in range(8)] for x in range(8)]
+
 
 def convert_file(f):
     """
@@ -47,8 +53,17 @@ def position_status(self, position):
     else:
         return 0
 
-def add_piece_location(self, position, piece):
+def add_piece_location(position, piece):
     """
     Add the position to the dictionary of piece_location
     """
-    piece_location[position]=piece
+    piece_location[position] = piece
+
+    #need to convert the position to 2 indexes for putting it into
+    #the piece_location_chessboard_view 2d array
+    """
+    CODE STRUCTURE FOR THE REST OF THIS METHOD
+    1. Divide the position into vertical and horizontal position
+    2. Insert at the position the piece name into the piece_location_chessboard_view array
+    """
+

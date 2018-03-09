@@ -19,7 +19,7 @@ class Queen(Pieces):
         :param position: Position on the chessboard
         :param color: Color of hte Piece: white::0, black::1
         """
-        Pieces.__init__(self, position, color)
+        Pieces.__init__(self, position, color, "Q")
 
     def moves(self):
         """
