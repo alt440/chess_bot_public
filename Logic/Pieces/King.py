@@ -1,6 +1,5 @@
 from Logic.Pieces.Pieces import Pieces
-from Logic.Chessboard import convert_file
-
+from Logic.Chessboard import *
 
 class King(Pieces):
     """
@@ -26,16 +25,36 @@ class King(Pieces):
         """
 
         moves = list()  # List of possible moves
-        file_pos = int(convert_file(self.position[0]))
-        rank_pos = int(self.position[1])
+        file_pos = int(convert_file(self.position[0])) #letters: Columns
+        rank_pos = int(self.position[1]) #rows
 
         """
         Check for all the position where the King could go.
         """
 
-        #if file_pos+1<=8:
-            #need to know position of the other King to make this condition
-            
-        
+        if file_pos+1<=8:
+            if rank_pos+1<=8:
+                moves.append(convert_file(file_pos+1)+str(rank_pos+1))
+            if rank_pos-1<=0:
+                moves.append(convert_file(file_pos+1)+str(rank_pos-1))
+
+            moves.append(convert_file(file_pos+1)+str(rank_pos))
+
+        if file_pos-1>=0:
+            if rank_pos+1<=8:
+                moves.append(convert_file(file_pos-1)+str(rank_pos+1))
+            if rank_pos-1<=0:
+                moves.append(convert_file(file_pos-1)+str(rank_pos-1))
+
+            moves.append(convert_file(file_pos-1)+str(rank_pos))
+
+        if rank_pos+1<=8:
+
+            moves.append(convert_file(file_pos)+str(rank_pos+1))
+
+        if rank_pos-1>=0:
+
+            moves.append(convert_file(file_pos)+str(rank_pos-1))
+
         return moves
 
