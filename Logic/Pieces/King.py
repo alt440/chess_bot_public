@@ -1,5 +1,5 @@
-from Logic.Pieces.Pieces import Pieces
-from Logic.Chessboard import *
+from Pieces import *
+from Chessboard import *
 
 class King(Pieces):
     """
@@ -28,33 +28,75 @@ class King(Pieces):
         file_pos = int(convert_file(self.position[0])) #letters: Columns
         rank_pos = int(self.position[1]) #rows
 
+        #opposite king position
+        file_pos_opposite = int(convert_file(kingOpposite.position[0]))
+        rank_pos_opposite = int(kingOpposite.position[1])
+
         """
         Check for all the position where the King could go.
         """
-
-        if file_pos+1<=8:
-            if rank_pos+1<=8:
+        if file_pos+1 <= 8:
+            if rank_pos+1 <= 8:
                 moves.append(convert_file(file_pos+1)+str(rank_pos+1))
-            if rank_pos-1<=0:
+            if rank_pos-1 >= 0:
                 moves.append(convert_file(file_pos+1)+str(rank_pos-1))
 
             moves.append(convert_file(file_pos+1)+str(rank_pos))
 
-        if file_pos-1>=0:
-            if rank_pos+1<=8:
+        if file_pos-1 >= 0:
+            if rank_pos+1 <= 8:
                 moves.append(convert_file(file_pos-1)+str(rank_pos+1))
-            if rank_pos-1<=0:
+            if rank_pos-1 >= 0:
                 moves.append(convert_file(file_pos-1)+str(rank_pos-1))
 
             moves.append(convert_file(file_pos-1)+str(rank_pos))
 
-        if rank_pos+1<=8:
+        if rank_pos+1 <= 8:
 
             moves.append(convert_file(file_pos)+str(rank_pos+1))
 
-        if rank_pos-1>=0:
+        if rank_pos-1 >= 0:
 
             moves.append(convert_file(file_pos)+str(rank_pos-1))
 
-        return moves
+        """
+        Check the positions that could be in sync with opposite king (not available moves)
+        """
+        moves_opposite = list()
+        if file_pos_opposite+1 <= 8:
+            if rank_pos_opposite+1 <= 8:
+                moves_opposite.append(convert_file(file_pos_opposite+1)+str(rank_pos_opposite+1))
+            if rank_pos_opposite-1 >= 0:
+                moves_opposite.append(convert_file(file_pos_opposite+1)+str(rank_pos_opposite-1))
+
+            moves_opposite.append(convert_file(file_pos_opposite+1)+str(rank_pos_opposite))
+
+        if file_pos_opposite-1 >= 0:
+            if rank_pos_opposite+1 <= 8:
+                moves_opposite.append(convert_file(file_pos_opposite-1)+str(rank_pos_opposite+1))
+            if rank_pos_opposite-1 >= 0:
+                moves_opposite.append(convert_file(file_pos_opposite-1)+str(rank_pos_opposite-1))
+
+            moves_opposite.append(convert_file(file_pos_opposite-1)+str(rank_pos_opposite))
+
+        if rank_pos_opposite+1 <= 8:
+
+            moves_opposite.append(convert_file(file_pos_opposite)+str(rank_pos_opposite+1))
+
+        if rank_pos_opposite-1 >= 0:
+
+            moves_opposite.append(convert_file(file_pos_opposite)+str(rank_pos_opposite-1))
+
+
+        moves_answer = list()
+        for x in range(len(moves)):
+            for y in range(len(moves_opposite)):    #this code is not performant...
+                if moves[x] == moves_opposite[y]:
+                    break
+                if y == len(moves_opposite)-1:
+                    moves_answer.append(moves[x])
+
+        return moves_answer
+
+
 
