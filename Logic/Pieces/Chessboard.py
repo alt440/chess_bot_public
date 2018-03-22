@@ -78,7 +78,12 @@ def is_space_available(file_pos, rank_pos, color):
     return is_space_available_bool
 
 """
-This method collects the method from black and white to position all the pieces as the game begins. They 
-both populate their tables of pieces so that we can refer to them later on.
+Makes the move considering the move is already legit.
 """
+def make_move(piece, next_position):
+    del piece_location[piece.position]
+    piece_location_chessboard_view[int(convert_file(piece.position[0])) - 1][int(piece.position[1]) - 1] = None
 
+    piece.position = next_position
+    piece_location[next_position] = piece
+    piece_location_chessboard_view[int(convert_file(next_position[0]))-1][int(next_position[1])-1] = piece
