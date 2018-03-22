@@ -1,6 +1,6 @@
 import MovesCollector
 
-
+#should include the looking ahead of 2 moves
 def AImove(color):
     # get the right list of moves from the color indicated
 

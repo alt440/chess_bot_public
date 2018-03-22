@@ -5,8 +5,7 @@ There is 4 diagonals, one for each quadrant of a cartesian plan
 (top-right, top-left, bottom-left, bottom-right).
 """
 
-from Logic.Chessboard import convert_file
-from Logic.Chessboard import position_status
+from Chessboard import *
 
 
 def diagonal_top_right(self):

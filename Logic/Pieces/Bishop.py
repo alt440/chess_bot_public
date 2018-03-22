@@ -1,5 +1,5 @@
-from Logic.Pieces.Pieces import Pieces
-from Logic.Pieces.Movement.Diagonal import diagonal_top_left, diagonal_bottom_right, diagonal_bottom_left, \
+from Pieces import *
+from Diagonal import diagonal_top_left, diagonal_bottom_right, diagonal_bottom_left, \
     diagonal_top_right
 
 

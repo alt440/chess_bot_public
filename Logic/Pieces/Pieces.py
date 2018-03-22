@@ -27,7 +27,7 @@ class Pieces:
         self.COLOR = color
         self.status = 0
         self.TYPE = TYPE
-        ChessBoard.add_piece_location(position, piece+color)#is it ok? made add_piece_location static
+        #ChessBoard.add_piece_location(position, piece+color)#is it ok? made add_piece_location static
 
     def moves(self):
         """"

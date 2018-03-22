@@ -1,7 +1,8 @@
-from Logic.Pieces.Pieces import Pieces
-from Logic.Pieces.Movement.Diagonal import diagonal_top_left, diagonal_bottom_right, diagonal_bottom_left, \
+from Pieces import *
+from Diagonal import diagonal_top_left, diagonal_bottom_right, diagonal_bottom_left, \
     diagonal_top_right
-from Logic.Pieces.Movement.Line import line_bottom, line_left, line_right, line_top
+from Line import line_bottom, line_left, line_right, line_top
+from Chessboard import *
 
 
 class Queen(Pieces):
@@ -20,6 +21,7 @@ class Queen(Pieces):
         :param color: Color of hte Piece: white::0, black::1
         """
         Pieces.__init__(self, position, color, "Q")
+        add_piece_location(position, self)
 
     def moves(self):
         """

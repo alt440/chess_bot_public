@@ -5,8 +5,7 @@ There is 4 lines, one for each axis and direction on a cartesian plan
 (right, top, left, bottom).
 """
 
-from Logic.Chessboard import convert_file
-from Logic.Chessboard import position_status
+from Chessboard import *
 
 
 def line_right(self):

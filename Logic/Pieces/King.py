@@ -14,11 +14,13 @@ class King(Pieces):
         :param color: Color of hte Piece: white::0, black::1
         """
         Pieces.__init__(self, position, color,"K")
+        add_piece_location(position, self)
 
 
     def moves(self, kingOpposite):
         """
-        Returns the list of possible moves for the Knight.
+        Returns the list of possible moves for the King.
+        The King opposite parameter will be put with the tables of White and Black that easily refer to it.
 
         :return: List of possible moves
         :rtype list
@@ -28,7 +30,13 @@ class King(Pieces):
         file_pos = int(convert_file(self.position[0])) #letters: Columns
         rank_pos = int(self.position[1]) #rows
 
-        #opposite king position
+        """
+        opposite king position
+        kingOpposite=None
+        for i in piece_location:
+            if piece_location[i].__name__ =='King' and not piece_location[i].COLOR == self.COLOR:
+                kingOpposite=piece_location[i]
+        """
         file_pos_opposite = int(convert_file(kingOpposite.position[0]))
         rank_pos_opposite = int(kingOpposite.position[1])
 

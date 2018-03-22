@@ -1,5 +1,6 @@
-from Logic.Pieces.Pieces import Pieces
-from Logic.Pieces.Movement.Line import line_bottom, line_left, line_right, line_top
+from Pieces import *
+from Line import line_bottom, line_left, line_right, line_top
+from Chessboard import *
 
 class Rook(Pieces):
     """
@@ -9,7 +10,7 @@ class Rook(Pieces):
     Radius = 8
     Type = "R"
 
-    def __index__(self,position,color):
+    def __init__(self,position,color):
         """
         Create a Rook based on the Piece class
 
@@ -17,6 +18,8 @@ class Rook(Pieces):
         :param color: Color of hte Piece: white::0, black::1
         """
         Pieces.__init__(self,position,color,"R")
+        add_piece_location(position, self)
+
 
     def moves(self):
         """
