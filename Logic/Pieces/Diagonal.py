@@ -21,7 +21,7 @@ def diagonal_top_right(self):
     y = int(self.position[1])
 
     for i in range(1, self.RADIUS):
-        if x + i <= 8:  # Verify if out of board
+        if x + i <= 8 and y + i <= 8:  # Verify if out of board
             new_pos = convert_file(x + i) + str(y + i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
@@ -73,7 +73,7 @@ def diagonal_bottom_left(self):
     y = int(self.position[1])
 
     for i in range(1, self.RADIUS):
-        if x - i > 0:  # Verify if out of board
+        if x - i > 0 and y - i > 0:  # Verify if out of board
             new_pos = convert_file(x - i) + str(y - i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
