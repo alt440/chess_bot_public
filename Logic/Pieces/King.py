@@ -5,6 +5,7 @@ class King(Pieces):
     """
     Represent the pieces of type King.
     """
+    name = 'King'
 
     def __init__(self, position, color):
         """
@@ -15,7 +16,6 @@ class King(Pieces):
         """
         Pieces.__init__(self, position, color,"K")
         add_piece_location(position, self)
-
 
     def moves(self, kingOpposite):
         """

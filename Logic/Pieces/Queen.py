@@ -12,6 +12,7 @@ class Queen(Pieces):
     VALUE = 90
     RADIUS = 8
     TYPE = "Q"
+    name = 'Queen'
 
     def __init__(self, position, color):
         """

@@ -11,6 +11,7 @@ class Bishop(Pieces):
     VALUE = 30
     RADIUS = 8
     TYPE = "B"
+    name = 'Bishop'
 
     def __init__(self, position, color):
         """
@@ -21,7 +22,6 @@ class Bishop(Pieces):
         """
         Pieces.__init__(self, position, color,"B")
         add_piece_location(position, self)
-        
 
     def moves(self):
         """

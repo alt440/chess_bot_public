@@ -9,6 +9,7 @@ class Rook(Pieces):
     Value = 50
     Radius = 8
     Type = "R"
+    name = 'Rook'
 
     def __init__(self,position,color):
         """
@@ -19,7 +20,6 @@ class Rook(Pieces):
         """
         Pieces.__init__(self,position,color,"R")
         add_piece_location(position, self)
-
 
     def moves(self):
         """
