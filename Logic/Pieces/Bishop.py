@@ -1,6 +1,7 @@
 from Pieces import *
 from Diagonal import diagonal_top_left, diagonal_bottom_right, diagonal_bottom_left, \
     diagonal_top_right
+from Chessboard import *
 
 
 class Bishop(Pieces):
@@ -19,6 +20,7 @@ class Bishop(Pieces):
         :param color: Color of hte Piece: white::0, black::1
         """
         Pieces.__init__(self, position, color,"B")
+        add_piece_location(position, self)
         
 
     def moves(self):
