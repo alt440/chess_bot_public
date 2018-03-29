@@ -80,10 +80,22 @@ def is_space_available(file_pos, rank_pos, color):
 """
 Makes the move considering the move is already legit.
 """
-def make_move(piece, next_position):
+def make_move(piece, next_position, array_moves_from_opposite_color):
     del piece_location[piece.position]
     piece_location_chessboard_view[int(convert_file(piece.position[0])) - 1][int(piece.position[1]) - 1] = None
 
+    """
+        We must also consider the removal of the other piece at that position once it has been captured
+    """
+    if not piece_location_chessboard_view[int(convert_file(next_position[0]))-1][int(next_position[1])-1] == None:
+        array_moves_from_opposite_color.remove(piece_location_chessboard_view[int(convert_file(next_position[0]))-1][int(next_position[1])-1])
+
+    """
+        Replace the position by the actual piece that goes there (the one we are moving)
+    """
     piece.position = next_position
     piece_location[next_position] = piece
     piece_location_chessboard_view[int(convert_file(next_position[0]))-1][int(next_position[1])-1] = piece
+
+
+
