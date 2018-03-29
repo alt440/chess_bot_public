@@ -1,22 +1,47 @@
 #import chessboard
 #import pieces
-from Logic.Chessboard import *
-from Logic.Pieces.Bishop import *
-from Logic.Pieces.Knight import *
-from Logic.Pieces.Queen import *
-from Logic.Pieces.King import *
-from Logic.Pieces.Rook import *
+from Chessboard import *
+from Bishop import *
+from Knight import *
+from Queen import *
+from King import *
+from Rook import *
+
+"""
+Order of arrays:
+
+"""
+
+movesBlack = []
+movesWhite = []
+
+def addMovesForPiece(piece, king_opposite_or_null):
+    """
+    color: Color of the Piece: white::0, black::1
+    :param piece: any piece
+    :param king_opposite_or_null: if a king is passed as a parameter, add the opposite king. Otherwise, put this as null.
+    :return:
+    """
+
+    if piece.COLOR == 1:
+        if not piece.name == 'King':
+            movesBlack.append(piece.moves())
+        else:
+            movesBlack.append(piece.moves(king_opposite_or_null))
+
+    elif piece.COLOR == 0:
+        if not piece.name == 'King':
+            movesWhite.append(piece.moves())
+        else:
+            movesWhite.append(piece.moves(king_opposite_or_null))
 
 
-
-movesBlack = ()
-movesWhite = ()
 
 """
 This is what the code should look like, even if it is not the right methods right now
 """
 def getAllMoves(previous_position_moved_piece, color):
-
+    """
     if color == 0: # if white
         #only need to remove the previous position of the piece before the last move. Otherwise, the rest of the list stays the same
         if not movesWhite: # if list is empty, fill it out
@@ -25,6 +50,8 @@ def getAllMoves(previous_position_moved_piece, color):
         else: #here remove only the previous position of the piece
             for i in range(len(white_pieces)):
                 if previous_position_moved_piece[0] == movesWhite[i][0]: #not sure
+    """
+    return 0
 
 
 
@@ -52,7 +79,7 @@ def is_check(opposite_king, new_position, old_position, piece_moved):
     y_position_king = int(self.position[1])
 
     for i in range(len(array)):
-        if x_position_king == array[i][0] && y_position_king == array[i][1]:
+        if x_position_king == array[i][0] and y_position_king == array[i][1]:
             return True
 
     return False
