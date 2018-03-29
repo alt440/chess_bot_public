@@ -23,6 +23,24 @@ def classify_moves(black_pieces_moves, white_pieces_moves, colorAI):
     That will be done later.
     """
 
+    """
+    To know if a piece is protected when going somewhere on the board, we will look at the occurence
+    of the position in the array of moves, because if pieces can get there, they can protect other pieces.
+    However, that is not the case for Pawns, which is why there is a method "check_diagonals" in the Pawn 
+    class. We will use that method to replace every possible moves of the pawns and put that instead.
+    
+    Exception : We want the King unprotected. We simply want it to be covered, so for the King these rules
+    do not apply.
+    """
+
+    """
+    The points given for protection will be inversely set. Meaning, if a queen protects a pawn, less points 
+    would be attributed than if a rook protects a pawn. Thus, the pawn being the protection will give the 
+    most points.
+    This goes opposite when attacking. When attacking, the highest points go for attacking the queen or putting
+    the King in check, instead of capturing a pawn.
+    """
+
     if colorAI == 0:
         #White
         for i in range(len(white_pieces_moves)):
