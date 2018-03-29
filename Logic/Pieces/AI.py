@@ -1,5 +1,39 @@
-import MovesCollector
+from MovesCollector import *
 
+"""
+movesAI will contain second level moves. That is, moves that would be available after one move has been made.
+It will try every type of move from the original array, and evaluate them with a system of points. The most points
+a move has, the most convenient it is to make that move.
+"""
+movesAI = []
+moves_points = []
+
+def classify_moves(black_pieces_moves, white_pieces_moves, colorAI):
+    """
+    color: Color of the Piece: white::0, black::1
+    :return:
+    """
+
+    """
+    We will need to analyze every move from our color. Then, for each possible
+    move we need to know which pieces it protects, and which pieces can attack it
+    from the opposite team. We must also know which pieces it can attack because they are undefended.
+    
+    We must be able to predict the player's move by predicting all his next possible moves.
+    That will be done later.
+    """
+
+    if colorAI == 0:
+        #White
+        for i in range(len(white_pieces_moves)):
+            #look at the position and inspect surroundings
+
+
+
+    return 0
+
+
+"""
 #should include the looking ahead of 2 moves
 def AImove(color):
     # get the right list of moves from the color indicated
@@ -20,4 +54,4 @@ def AImove(color):
                 positive near 0
             else:
                 negative near 0
-                
+"""
