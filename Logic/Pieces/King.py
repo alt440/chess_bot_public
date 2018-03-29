@@ -44,27 +44,25 @@ class King(Pieces):
         Check for all the position where the King could go.
         """
         if file_pos+1 <= 8:
-            if rank_pos+1 <= 8:
+            if rank_pos+1 <= 8 and is_space_available(file_pos+1, rank_pos+1, self.COLOR):
                 moves.append(convert_file(file_pos+1)+str(rank_pos+1))
-            if rank_pos-1 >= 0:
+            if rank_pos-1 > 0 and is_space_available(file_pos+1, rank_pos-1, self.COLOR):
                 moves.append(convert_file(file_pos+1)+str(rank_pos-1))
+            if is_space_available(file_pos+1, rank_pos, self.COLOR):
+                moves.append(convert_file(file_pos+1)+str(rank_pos))
 
-            moves.append(convert_file(file_pos+1)+str(rank_pos))
-
-        if file_pos-1 >= 0:
-            if rank_pos+1 <= 8:
+        if file_pos-1 > 0:
+            if rank_pos+1 <= 8 and is_space_available(file_pos-1, rank_pos+1, self.COLOR):
                 moves.append(convert_file(file_pos-1)+str(rank_pos+1))
-            if rank_pos-1 >= 0:
+            if rank_pos-1 > 0 and is_space_available(file_pos-1, rank_pos-1, self.COLOR):
                 moves.append(convert_file(file_pos-1)+str(rank_pos-1))
+            if is_space_available(file_pos-1, rank_pos, self.COLOR):
+                moves.append(convert_file(file_pos-1)+str(rank_pos))
 
-            moves.append(convert_file(file_pos-1)+str(rank_pos))
-
-        if rank_pos+1 <= 8:
-
+        if rank_pos+1 <= 8 and is_space_available(file_pos, rank_pos+1, self.COLOR):
             moves.append(convert_file(file_pos)+str(rank_pos+1))
 
-        if rank_pos-1 >= 0:
-
+        if rank_pos-1 > 0 and is_space_available(file_pos, rank_pos-1, self.COLOR):
             moves.append(convert_file(file_pos)+str(rank_pos-1))
 
         """
@@ -72,26 +70,26 @@ class King(Pieces):
         """
         moves_opposite = list()
         if file_pos_opposite+1 <= 8:
-            if rank_pos_opposite+1 <= 8:
+            if rank_pos_opposite+1 <= 8 and is_space_available(file_pos_opposite+1, rank_pos_opposite+1, self.COLOR):
                 moves_opposite.append(convert_file(file_pos_opposite+1)+str(rank_pos_opposite+1))
-            if rank_pos_opposite-1 >= 0:
+            if rank_pos_opposite-1 > 0 and is_space_available(file_pos_opposite+1, rank_pos_opposite-1, self.COLOR):
                 moves_opposite.append(convert_file(file_pos_opposite+1)+str(rank_pos_opposite-1))
+            if is_space_available(file_pos_opposite+1, rank_pos_opposite, self.COLOR):
+                moves_opposite.append(convert_file(file_pos_opposite+1)+str(rank_pos_opposite))
 
-            moves_opposite.append(convert_file(file_pos_opposite+1)+str(rank_pos_opposite))
-
-        if file_pos_opposite-1 >= 0:
-            if rank_pos_opposite+1 <= 8:
+        if file_pos_opposite-1 > 0:
+            if rank_pos_opposite+1 <= 8 and is_space_available(file_pos_opposite-1, rank_pos_opposite+1, self.COLOR):
                 moves_opposite.append(convert_file(file_pos_opposite-1)+str(rank_pos_opposite+1))
-            if rank_pos_opposite-1 >= 0:
+            if rank_pos_opposite-1 > 0 and is_space_available(file_pos_opposite-1, rank_pos_opposite-1, self.COLOR):
                 moves_opposite.append(convert_file(file_pos_opposite-1)+str(rank_pos_opposite-1))
+            if is_space_available(file_pos_opposite-1, rank_pos_opposite, self.COLOR):
+                moves_opposite.append(convert_file(file_pos_opposite-1)+str(rank_pos_opposite))
 
-            moves_opposite.append(convert_file(file_pos_opposite-1)+str(rank_pos_opposite))
-
-        if rank_pos_opposite+1 <= 8:
+        if rank_pos_opposite+1 <= 8 and is_space_available(file_pos_opposite, rank_pos_opposite+1, self.COLOR):
 
             moves_opposite.append(convert_file(file_pos_opposite)+str(rank_pos_opposite+1))
 
-        if rank_pos_opposite-1 >= 0:
+        if rank_pos_opposite-1 > 0 and is_space_available(file_pos_opposite, rank_pos_opposite-1, self.COLOR):
 
             moves_opposite.append(convert_file(file_pos_opposite)+str(rank_pos_opposite-1))
 
