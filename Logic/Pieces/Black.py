@@ -4,7 +4,7 @@ from Queen import *
 from King import *
 from Rook import *
 from Pawn import * #NOT THERE YET
-from Chessboard import *
+
 
 class Black():
     black_pieces = []
