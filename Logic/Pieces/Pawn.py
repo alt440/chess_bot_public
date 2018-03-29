@@ -14,9 +14,32 @@ class Pawn(Pieces):
         return piece_location_chessboard_view[file_pos - 1][rank_pos - 1] is not None \
             and not (piece_location_chessboard_view[file_pos - 1][rank_pos - 1].COLOR == color)
 
+    @staticmethod
     def is_space_occupied(file_pos, rank_pos):
         return piece_location_chessboard_view[file_pos - 1][rank_pos - 1] is not None
 
+    def checking_diagonals(self):
+        """
+        This method will allow us to determine whether a pawn can protect some piece that is going to go at its diagonal.
+        :return:
+        """
+        file_pos = int(convert_file(self.position[0]))
+        rank_pos = int(self.position[1])
+
+        possible_protection_for_pieces = []
+        if self.COLOR == 0:
+            if file_pos-1 > 0 and rank_pos + 1 <= 8 and not Pawn.is_space_occupied(file_pos - 1, rank_pos + 1):
+                possible_protection_for_pieces.append(convert_file(file_pos - 1) + str(rank_pos + 1))
+            if file_pos+1 <= 8 and rank_pos + 1 <= 8 and not Pawn.is_space_occupied(file_pos + 1, rank_pos + 1):
+                possible_protection_for_pieces.append(convert_file(file_pos + 1) + str(rank_pos + 1))
+
+        elif self.COLOR == 1:
+            if file_pos-1 > 0 and rank_pos - 1 > 0 and Pawn.is_space_occupied(file_pos - 1, rank_pos - 1):
+                possible_protection_for_pieces.append(convert_file(file_pos - 1) + str(rank_pos - 1))
+            if file_pos+1 <= 8 and rank_pos - 1 > 0 and Pawn.is_space_occupied(file_pos + 1, rank_pos - 1):
+                possible_protection_for_pieces.append(convert_file(file_pos + 1) + str(rank_pos - 1))
+
+        return possible_protection_for_pieces
 
     #Firstly, taking in consideration all possible moves.
     def moves(self):
