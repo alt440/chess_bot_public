@@ -38,6 +38,12 @@ if user_color == 0:
         addMovesForPiece(White.white_pieces[i], None)
     print(movesWhite)
 
+    #FOR AI
+    addMovesForPiece(Black.black_pieces[0], White.white_pieces[0])
+
+    for i in range(1, len(Black.black_pieces)):
+        addMovesForPiece(Black.black_pieces[i], None)
+
 if user_color == 1:
     print("Blacks")
     print(Black.black_pieces[0].position + ' ' + Black.black_pieces[0].name)
@@ -49,6 +55,12 @@ if user_color == 1:
         print(Black.black_pieces[i].moves())
         addMovesForPiece(Black.black_pieces[i], None)
     print(movesBlack)
+
+    #FOR AI
+    addMovesForPiece(White.white_pieces[0], Black.black_pieces[0])
+    for i in range(1, len(White.white_pieces)):
+        addMovesForPiece(White.white_pieces[i], None)
+
 
 print("Choose a move to make. First indicate the initial position of the object and mention the new position.")
 """
@@ -63,11 +75,6 @@ while checkmate is not True:
     concerned_piece = None
 
     initial_position = x[:2]
-    print(initial_position)
-    position_piece = 'h7'
-    print(position_piece in initial_position)
-    position_piece = "h7"
-    print(position_piece in initial_position)
 
     if user_color == 0:
         for i in range(len(White.white_pieces)):
@@ -86,22 +93,35 @@ while checkmate is not True:
                 break
 
     print(concerned_piece)
-    make_move(concerned_piece, x[2:4])
+
 
     if user_color == 0:
+        make_move(concerned_piece, x[2:4], Black.black_pieces)
         print("Whites")
         print(White.white_pieces[0].position + ' ' + White.white_pieces[0].name)
         print(White.white_pieces[0].moves(Black.black_pieces[0]))
         for i in range(1, len(White.white_pieces)):
             print(White.white_pieces[i].position + ' ' + White.white_pieces[i].name)
             print(White.white_pieces[i].moves())
+
+        # FOR AI
+        addMovesForPiece(Black.black_pieces[0], White.white_pieces[0])
+        for i in range(1, len(Black.black_pieces)):
+            addMovesForPiece(Black.black_pieces[i], None)
+
     elif user_color == 1:
+        make_move(concerned_piece, x[2:4], White.white_pieces)
         print("Blacks")
         print(Black.black_pieces[0].position + ' ' + Black.black_pieces[0].name)
         print(Black.black_pieces[0].moves(White.white_pieces[0]))
         for i in range(1, len(Black.black_pieces)):
             print(Black.black_pieces[i].position + ' ' + Black.black_pieces[i].name)
             print(Black.black_pieces[i].moves())
+
+        # FOR AI
+        addMovesForPiece(White.white_pieces[0], Black.black_pieces[0])
+        for i in range(1, len(White.white_pieces)):
+            addMovesForPiece(White.white_pieces[i], None)
 
     """
     Check in the list of moves which one is most efficient for the AI
