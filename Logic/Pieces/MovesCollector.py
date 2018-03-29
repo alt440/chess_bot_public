@@ -9,11 +9,28 @@ from Rook import *
 
 """
 Order of arrays:
-
+0: KING
+1: QUEEN
+2: BISHOP
+3: BISHOP
+4: KNIGHT
+5: KNIGHT
+6: ROOK
+7: ROOK
+8: PAWN A
+9: PAWN B
+10: PAWN C
+11: PAWN D
+12: PAWN E
+13: PAWN F
+14: PAWN G
+15: PAWN H
+These are the first indexes of the 2d arrays. The length of the 2nd dimension depends on how many moves are available.
 """
 
 movesBlack = []
 movesWhite = []
+
 
 def addMovesForPiece(piece, king_opposite_or_null):
     """
@@ -36,7 +53,6 @@ def addMovesForPiece(piece, king_opposite_or_null):
             movesWhite.append(piece.moves(king_opposite_or_null))
 
 
-
 """
 This is what the code should look like, even if it is not the right methods right now
 """
@@ -52,16 +68,6 @@ def getAllMoves(previous_position_moved_piece, color):
                 if previous_position_moved_piece[0] == movesWhite[i][0]: #not sure
     """
     return 0
-
-
-
-
-def isPossibleMove(inputX):
-    if inputX in list:
-        return True
-    else:
-        return False
-
 
 def is_check(opposite_king, new_position, old_position, piece_moved):
     """
