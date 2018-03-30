@@ -1,11 +1,7 @@
 #import chessboard
 #import pieces
 from Chessboard import *
-from Bishop import *
-from Knight import *
-from Queen import *
-from King import *
-from Rook import *
+from AI import *
 
 """
 Order of arrays:
@@ -31,26 +27,56 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
 movesBlack = []
 movesWhite = []
 
-
-def addMovesForPiece(piece, king_opposite_or_null):
+def addMovesForPieces(array_pieces, king_opposite_or_null, user_color):
     """
     color: Color of the Piece: white::0, black::1
-    :param piece: any piece
+    :param array_pieces: the array of pieces (black or white)
     :param king_opposite_or_null: if a king is passed as a parameter, add the opposite king. Otherwise, put this as null.
+    :param user_color: to print the info important to the user
     :return:
     """
 
-    if piece.COLOR == 1:
-        if not piece.name == 'King':
-            movesBlack.append(piece.moves())
-        else:
-            movesBlack.append(piece.moves(king_opposite_or_null))
+    #transfer used moves to previousMoves arrays
 
-    elif piece.COLOR == 0:
-        if not piece.name == 'King':
-            movesWhite.append(piece.moves())
+    if array_pieces[0].COLOR == 1:
+        del movesBlack[:]
+        if user_color == 1:
+            for i in range(len(array_pieces)):
+                if not array_pieces[i].name == 'King':
+                    print(array_pieces[i].position + ' ' + array_pieces[i].name)
+                    print(array_pieces[i].moves())
+                    movesBlack.append(array_pieces[i].moves())
+                else:
+                    print(array_pieces[i].position + ' ' + array_pieces[i].name)
+                    print(array_pieces[i].moves(king_opposite_or_null))
+                    movesBlack.append(array_pieces[i].moves(king_opposite_or_null))
         else:
-            movesWhite.append(piece.moves(king_opposite_or_null))
+            for i in range(len(array_pieces)):
+                if not array_pieces[i].name == 'King':
+                    movesBlack.append(array_pieces[i].moves())
+                else:
+                    movesBlack.append(array_pieces[i].moves(king_opposite_or_null))
+
+    elif array_pieces[0].COLOR == 0:
+        del movesWhite[:]
+        if user_color == 0:
+            for i in range(len(array_pieces)):
+                if not array_pieces[i].name == 'King':
+                    print(array_pieces[i].position + ' ' + array_pieces[i].name)
+                    print(array_pieces[i].moves())
+                    movesWhite.append(array_pieces[i].moves())
+                else:
+                    print(array_pieces[i].position + ' ' + array_pieces[i].name)
+                    print(array_pieces[i].moves(king_opposite_or_null))
+                    movesWhite.append(array_pieces[i].moves(king_opposite_or_null))
+        else:
+            for i in range(len(array_pieces)):
+                if not array_pieces[i].name == 'King':
+                    movesWhite.append(array_pieces[i].moves())
+                else:
+                    movesWhite.append(array_pieces[i].moves(king_opposite_or_null))
+            AI.classify_moves(movesBlack, movesWhite, 0)
+
 
 
 """

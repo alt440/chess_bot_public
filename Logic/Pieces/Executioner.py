@@ -20,6 +20,9 @@ elif initial_color < 0.5:
 print(user_color)
 print("Welcome to the simulator")
 
+#FOR TESTING THE AI (NOT THERE IN USUAL CIRCUMSTANCES
+user_color = 1
+
 White.start_new_game()
 Black.start_new_game()
 
@@ -28,38 +31,23 @@ Used to test if the right moves were allowed
 """
 if user_color == 0:
     print("Whites")
-    print(White.white_pieces[0].position + ' ' + White.white_pieces[0].name)
-    addMovesForPiece(White.white_pieces[0], Black.black_pieces[0])
-    print(White.white_pieces[0].moves(Black.black_pieces[0]))
 
-    for i in range(1,len(White.white_pieces)):
-        print(White.white_pieces[i].position + ' ' + White.white_pieces[i].name)
-        print(White.white_pieces[i].moves())
-        addMovesForPiece(White.white_pieces[i], None)
+    addMovesForPieces(White.white_pieces, Black.black_pieces[0], user_color)
+
     print(movesWhite)
 
     #FOR AI
-    addMovesForPiece(Black.black_pieces[0], White.white_pieces[0])
-
-    for i in range(1, len(Black.black_pieces)):
-        addMovesForPiece(Black.black_pieces[i], None)
+    addMovesForPieces(Black.black_pieces, White.white_pieces[0], user_color)
 
 if user_color == 1:
     print("Blacks")
-    print(Black.black_pieces[0].position + ' ' + Black.black_pieces[0].name)
-    addMovesForPiece(Black.black_pieces[0], White.white_pieces[0])
-    print(Black.black_pieces[0].moves(White.white_pieces[0]))
 
-    for i in range(1,len(Black.black_pieces)):
-        print(Black.black_pieces[i].position + ' ' + Black.black_pieces[i].name)
-        print(Black.black_pieces[i].moves())
-        addMovesForPiece(Black.black_pieces[i], None)
+    addMovesForPieces(Black.black_pieces, White.white_pieces[0], user_color)
     print(movesBlack)
 
     #FOR AI
-    addMovesForPiece(White.white_pieces[0], Black.black_pieces[0])
-    for i in range(1, len(White.white_pieces)):
-        addMovesForPiece(White.white_pieces[i], None)
+
+    addMovesForPieces(White.white_pieces, Black.black_pieces[0], user_color)
 
 
 print("Choose a move to make. First indicate the initial position of the object and mention the new position.")
@@ -98,30 +86,18 @@ while checkmate is not True:
     if user_color == 0:
         make_move(concerned_piece, x[2:4], Black.black_pieces)
         print("Whites")
-        print(White.white_pieces[0].position + ' ' + White.white_pieces[0].name)
-        print(White.white_pieces[0].moves(Black.black_pieces[0]))
-        for i in range(1, len(White.white_pieces)):
-            print(White.white_pieces[i].position + ' ' + White.white_pieces[i].name)
-            print(White.white_pieces[i].moves())
+        addMovesForPieces(White.white_pieces, Black.black_pieces[0], user_color)
 
         # FOR AI
-        addMovesForPiece(Black.black_pieces[0], White.white_pieces[0])
-        for i in range(1, len(Black.black_pieces)):
-            addMovesForPiece(Black.black_pieces[i], None)
+        addMovesForPieces(Black.black_pieces, White.white_pieces[0], user_color)
 
     elif user_color == 1:
         make_move(concerned_piece, x[2:4], White.white_pieces)
         print("Blacks")
-        print(Black.black_pieces[0].position + ' ' + Black.black_pieces[0].name)
-        print(Black.black_pieces[0].moves(White.white_pieces[0]))
-        for i in range(1, len(Black.black_pieces)):
-            print(Black.black_pieces[i].position + ' ' + Black.black_pieces[i].name)
-            print(Black.black_pieces[i].moves())
+        addMovesForPieces(Black.black_pieces, White.white_pieces[0], user_color)
 
         # FOR AI
-        addMovesForPiece(White.white_pieces[0], Black.black_pieces[0])
-        for i in range(1, len(White.white_pieces)):
-            addMovesForPiece(White.white_pieces[i], None)
+        addMovesForPieces(White.white_pieces, Black.black_pieces[0], user_color)
 
     """
     Check in the list of moves which one is most efficient for the AI

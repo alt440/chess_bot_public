@@ -1,0 +1,1 @@
+"The AI has now an algorithm to calculate which next position is best protected to decide of a move. There is still no offense." 
