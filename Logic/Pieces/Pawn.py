@@ -41,6 +41,25 @@ class Pawn(Pieces):
 
         return possible_protection_for_pieces
 
+    def diagonal_positions_blocked(self):
+        file_pos = int(convert_file(self.position[0]))
+        rank_pos = int(self.position[1])
+
+        possible_diagonals_blocked = []
+        if self.COLOR == 0:
+            if file_pos - 1 > 0 and rank_pos + 1 <= 8 and not Pawn.possibility_of_capturing(file_pos - 1, rank_pos + 1, self.COLOR):
+                possible_diagonals_blocked.append(convert_file(file_pos - 1) + str(rank_pos + 1))
+            if file_pos + 1 <= 8 and rank_pos + 1 <= 8 and not Pawn.possibility_of_capturing(file_pos + 1, rank_pos + 1, self.COLOR):
+                possible_diagonals_blocked.append(convert_file(file_pos + 1) + str(rank_pos + 1))
+
+        elif self.COLOR == 1:
+            if file_pos - 1 > 0 and rank_pos - 1 > 0 and not Pawn.possibility_of_capturing(file_pos - 1, rank_pos - 1, self.COLOR):
+                possible_diagonals_blocked.append(convert_file(file_pos - 1) + str(rank_pos - 1))
+            if file_pos + 1 <= 8 and rank_pos - 1 > 0 and not Pawn.possibility_of_capturing(file_pos + 1, rank_pos - 1, self.COLOR):
+                possible_diagonals_blocked.append(convert_file(file_pos + 1) + str(rank_pos - 1))
+
+        return possible_diagonals_blocked
+
     #Firstly, taking in consideration all possible moves.
     def moves(self):
         moves = list()

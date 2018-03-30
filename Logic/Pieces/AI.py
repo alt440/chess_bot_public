@@ -47,10 +47,19 @@ a move has, the most convenient it is to make that move.
     This goes opposite when attacking. When attacking, the highest points go for attacking the queen or putting
     the King in check, instead of capturing a pawn.
         """
-        #contains spaces that can be protected with next move. Same concept as movesCollector (indexes same)
+        # contains spaces that can be protected with next move. Same concept as movesCollector (indexes same)
         protection_array = []
-        #we put the sum of inversely points given to pieces at each position in the protection array
+        # we put the sum of inversely points given to pieces at each position in the protection array
         protection_array_values = [[0 for y in range(8)] for x in range(8)]
+
+        # contains the spaces where we can reach for enemy pieces
+        attack_array = []
+        # we put the sum of points given to pieces at each position in the attack_array
+        attack_array_values = [[0 for y in range(8)] for x in range(8)]
+
+        # contains information as to how much pieces are protected. Only information will be the number
+        # of pieces that protect some piece. It will help determining if attacking is worth it.
+        protection_enemy_pieces = [[0 for y in range(8)] for x in range(8)]
 
         """
     Order of arrays:
@@ -75,41 +84,62 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
 
 
         if colorAI == 0:
-            #White
+            # White
             for i in range(len(white_pieces_moves)):
-                #look at the position and inspect surroundings
+                # look at the position and inspect surroundings
                 if i > 7:
                     protection_array.append(White.white_pieces[i].checking_diagonals())
                 else:
                     protection_array.append(white_pieces_moves[i])
 
-            #array populated. doing points
+            # array populated. doing points
             AI.max_value = 0
             for i in range(len(protection_array)):
-                #remove the index that is the piece's possible moves for protection (decrease by 1 the occurence of the position, only for other than pawn) For now, no
+                # remove the index that is the piece's possible moves for protection (decrease by 1 the occurence of the
+                # position, only for other than pawn) For now, no
                 if i == 0:
                     AI.add_piece_value_to_protection_array_values(i, protection_array,
-                                                                  protection_array_values, 1, AI.max_value)
+                                                                  protection_array_values, 1)
 
                 elif i == 1:
                     AI.add_piece_value_to_protection_array_values(i, protection_array,
-                                                                  protection_array_values, 2, AI.max_value)
+                                                                  protection_array_values, 2)
 
                 elif i >= 2 and i <= 5:
                     AI.add_piece_value_to_protection_array_values(i, protection_array,
-                                                                  protection_array_values, 5, AI.max_value)
+                                                                  protection_array_values, 5)
 
                 elif i== 6 or i == 7:
                     AI.add_piece_value_to_protection_array_values(i, protection_array,
-                                                                  protection_array_values, 3, AI.max_value)
+                                                                  protection_array_values, 3)
 
                 elif i > 7:
                     AI.add_piece_value_to_protection_array_values(i, protection_array,
-                                                                  protection_array_values, 9, AI.max_value)
+                                                                  protection_array_values, 9)
 
-            #so one of the pieces going at these positions will get protected
+            # Checkpoint: Protection array and protection array values completed.
 
-            #to quit the loop when the move has been made, because we do not need to search for another move anymore
+            # filling the protection_enemy_pieces array
+            for i in range(len(Black.black_pieces)):
+                position = Black.black_pieces[i].position
+                for j in range(len(black_pieces_moves)):
+                    if j == i:
+                        continue
+                    else:
+                        for k in range(len(black_pieces_moves[j])):
+                            print(position+' '+black_pieces_moves[j][k]+' two compared strings')
+                            if position is black_pieces_moves[j][k]:
+                                row = int(convert_file(position[0]))-1
+                                column = int(position[1])-1
+                                protection_enemy_pieces[row][column] += 1
+
+            print("ENEMY PROTECTION (USER PROTECTION)")
+            for i in range(8):
+                print(protection_enemy_pieces[i])
+
+            print("END")
+
+            # to quit the loop when the move has been made, because we do not need to search for another move anymore
             skip = False
 
             for i in range(8):
@@ -133,22 +163,21 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
                             while k >= 0 and not skip:
                                 for l in range(len(white_pieces_moves[k])):
                                     if white_pieces_moves[k][l] == position:
-                                        #take piece and make move
+                                        # take piece and make move
                                         print("Piece "+White.white_pieces[k].name+" moves to "+position)
                                         make_move(White.white_pieces[k], position, Black.black_pieces)
                                         skip = True
                                         break
-                                k-=1
-
+                                k -= 1
 
                     if i == 7 and j == 7 and not skip:
                         while AI.max_value not in protection_array_values and AI.max_value >= 0:
-                            AI.max_value -= 1 #decrease until another possible value in the array is encountered.
+                            AI.max_value -= 1 # decrease until another possible value in the array is encountered.
 
         return 0
 
     @staticmethod
-    def add_piece_value_to_protection_array_values(i, protection_array, protection_array_values, value_added, max_value):
+    def add_piece_value_to_protection_array_values(i, protection_array, protection_array_values, value_added):
         for j in range(len(protection_array[i])):
             row = int(convert_file(protection_array[i][j][0]))-1
             column = int(protection_array[i][j][1])-1
