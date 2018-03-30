@@ -1,7 +1,6 @@
 from Pieces import *
-from Diagonal import diagonal_top_left, diagonal_bottom_right, diagonal_bottom_left, \
-    diagonal_top_right
-from Line import line_bottom, line_left, line_right, line_top
+from Diagonal import *
+from Line import *
 from Chessboard import *
 
 
@@ -23,6 +22,17 @@ class Queen(Pieces):
         """
         Pieces.__init__(self, position, color, "Q")
         add_piece_location(position, self)
+
+    def moves_blocked(self):
+        return [y for x in [diagonal_top_right_blocked(self),
+                            diagonal_top_left_blocked(self),
+                            diagonal_bottom_left_blocked(self),
+                            diagonal_bottom_right_blocked(self),
+                            line_right_blocked(self),
+                            line_top_blocked(self),
+                            line_left_blocked(self),
+                            line_bottom_blocked(self)]
+                for y in x]
 
     def moves(self):
         """

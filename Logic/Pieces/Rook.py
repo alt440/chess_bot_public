@@ -1,5 +1,5 @@
 from Pieces import *
-from Line import line_bottom, line_left, line_right, line_top
+from Line import *
 from Chessboard import *
 
 class Rook(Pieces):
@@ -20,6 +20,13 @@ class Rook(Pieces):
         """
         Pieces.__init__(self,position,color,"R")
         add_piece_location(position, self)
+
+    def moves_blocked(self):
+        return [y for x in [line_right_blocked(self),
+                           line_top_blocked(self),
+                           line_left_blocked(self),
+                           line_bottom_blocked(self)]
+                for y in x]
 
     def moves(self):
         """

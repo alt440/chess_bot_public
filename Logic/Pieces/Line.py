@@ -33,6 +33,23 @@ def line_right(self):
             break
     return line
 
+def line_right_blocked(self):
+    line = []
+    x = convert_file(self.position[0])
+    y = int(self.position[1])
+
+    for i in range(1, 8):
+        if x + i <= 8:  # Verify if out of board
+            new_pos = convert_file(x + i) + str(y)
+            pos_status = position_status(self, new_pos)
+            # Verify if the piece can go there
+            if pos_status == -1:
+                line.append(new_pos)
+                break
+        else:
+            break
+    return line
+
 
 def line_top(self):
     """
@@ -54,6 +71,24 @@ def line_top(self):
             if pos_status >= 0:
                 line.append(new_pos)
             if pos_status != 0:
+                break
+        else:
+            break
+    return line
+
+
+def line_top_blocked(self):
+    line = []
+    x = convert_file(self.position[0])
+    y = int(self.position[1])
+
+    for i in range(1, 8):
+        if y + i <= 8:  # Verify if out of board
+            new_pos = convert_file(x) + str(y + i)
+            pos_status = position_status(self, new_pos)
+            # Verify if the piece can go there
+            if pos_status == -1:
+                line.append(new_pos)
                 break
         else:
             break
@@ -86,6 +121,24 @@ def line_left(self):
     return line
 
 
+def line_left_blocked(self):
+    line = []
+    x = convert_file(self.position[0])
+    y = int(self.position[1])
+
+    for i in range(1, 8):
+        if x - i > 0:  # Verify if out of board
+            new_pos = convert_file(x - i) + str(y)
+            pos_status = position_status(self, new_pos)
+            # Verify if the piece can go there
+            if pos_status == -1:
+                line.append(new_pos)
+                break
+        else:
+            break
+    return line
+
+
 def line_bottom(self):
     """
     Returns the possible moves for the Bottom line.
@@ -106,6 +159,24 @@ def line_bottom(self):
             if pos_status >= 0:
                 line.append(new_pos)
             if pos_status != 0:
+                break
+        else:
+            break
+    return line
+
+
+def line_bottom_blocked(self):
+    line = []
+    x = convert_file(self.position[0])
+    y = int(self.position[1])
+
+    for i in range(1, 8):
+        if y - i > 0:  # Verify if out of board
+            new_pos = convert_file(x) + str(y - i)
+            pos_status = position_status(self, new_pos)
+            # Verify if the piece can go there
+            if pos_status == -1:
+                line.append(new_pos)
                 break
         else:
             break

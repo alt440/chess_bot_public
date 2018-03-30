@@ -18,6 +18,11 @@ class Pawn(Pieces):
     def is_space_occupied(file_pos, rank_pos):
         return piece_location_chessboard_view[file_pos - 1][rank_pos - 1] is not None
 
+    @staticmethod
+    def possibility_of_protecting(file_pos, rank_pos, color):
+        return piece_location_chessboard_view[file_pos - 1][rank_pos - 1] is not None \
+            and (piece_location_chessboard_view[file_pos - 1][rank_pos - 1].COLOR == color)
+
     def checking_diagonals(self):
         """
         This method will allow us to determine whether a pawn can protect some piece that is going to go at its diagonal.
@@ -41,21 +46,21 @@ class Pawn(Pieces):
 
         return possible_protection_for_pieces
 
-    def diagonal_positions_blocked(self):
+    def moves_blocked(self):
         file_pos = int(convert_file(self.position[0]))
         rank_pos = int(self.position[1])
 
         possible_diagonals_blocked = []
         if self.COLOR == 0:
-            if file_pos - 1 > 0 and rank_pos + 1 <= 8 and not Pawn.possibility_of_capturing(file_pos - 1, rank_pos + 1, self.COLOR):
+            if file_pos - 1 > 0 and rank_pos + 1 <= 8 and Pawn.possibility_of_protecting(file_pos - 1, rank_pos + 1, self.COLOR):
                 possible_diagonals_blocked.append(convert_file(file_pos - 1) + str(rank_pos + 1))
-            if file_pos + 1 <= 8 and rank_pos + 1 <= 8 and not Pawn.possibility_of_capturing(file_pos + 1, rank_pos + 1, self.COLOR):
+            if file_pos + 1 <= 8 and rank_pos + 1 <= 8 and Pawn.possibility_of_protecting(file_pos + 1, rank_pos + 1, self.COLOR):
                 possible_diagonals_blocked.append(convert_file(file_pos + 1) + str(rank_pos + 1))
 
         elif self.COLOR == 1:
-            if file_pos - 1 > 0 and rank_pos - 1 > 0 and not Pawn.possibility_of_capturing(file_pos - 1, rank_pos - 1, self.COLOR):
+            if file_pos - 1 > 0 and rank_pos - 1 > 0 and Pawn.possibility_of_protecting(file_pos - 1, rank_pos - 1, self.COLOR):
                 possible_diagonals_blocked.append(convert_file(file_pos - 1) + str(rank_pos - 1))
-            if file_pos + 1 <= 8 and rank_pos - 1 > 0 and not Pawn.possibility_of_capturing(file_pos + 1, rank_pos - 1, self.COLOR):
+            if file_pos + 1 <= 8 and rank_pos - 1 > 0 and Pawn.possibility_of_protecting(file_pos + 1, rank_pos - 1, self.COLOR):
                 possible_diagonals_blocked.append(convert_file(file_pos + 1) + str(rank_pos - 1))
 
         return possible_diagonals_blocked

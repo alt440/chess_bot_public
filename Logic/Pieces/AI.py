@@ -59,7 +59,9 @@ a move has, the most convenient it is to make that move.
 
         # contains information as to how much pieces are protected. Only information will be the number
         # of pieces that protect some piece. It will help determining if attacking is worth it.
-        protection_enemy_pieces = [[0 for y in range(8)] for x in range(8)]
+        protection_all_pieces = [[0 for y in range(8)] for x in range(8)]
+        # do the same for our pieces
+
 
         """
     Order of arrays:
@@ -121,23 +123,42 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
 
             # filling the protection_enemy_pieces array
             for i in range(len(Black.black_pieces)):
+                protected_enemy_pieces = Black.black_pieces[i].moves_blocked()
+                for j in range(len(protected_enemy_pieces)):
+                    row = int(convert_file(protected_enemy_pieces[j][0]))-1
+                    column = int(protected_enemy_pieces[j][1])-1  # do -1 bc starts at 1
+                    protection_all_pieces[row][column] += 1
+
+            # filling the protection_ally_pieces array
+            for i in range(len(White.white_pieces)):
+                protected_ally_pieces = White.white_pieces[i].moves_blocked()
+                for j in range(len(protected_ally_pieces)):
+                    row = int(convert_file(protected_ally_pieces[j][0]))-1
+                    column = int(protected_ally_pieces[j][1])-1  # do -1 bc starts at 1
+                    protection_all_pieces[row][column] -= 1
+
+            # checking for unprotected pieces: will have the value 500 and -500
+            for i in range(len(White.white_pieces)):
+                position = White.white_pieces[i].position
+                row = int(convert_file(position[0])) - 1
+                column = int(position[1]) - 1  # do -1 bc starts at 1
+                if protection_all_pieces[row][column] == 0:
+                    protection_all_pieces[row][column] -= 500
+
+            for i in range(len(Black.black_pieces)):
                 position = Black.black_pieces[i].position
-                for j in range(len(black_pieces_moves)):
-                    if j == i:
-                        continue
-                    else:
-                        for k in range(len(black_pieces_moves[j])):
-                            print(position+' '+black_pieces_moves[j][k]+' two compared strings')
-                            if position is black_pieces_moves[j][k]:
-                                row = int(convert_file(position[0]))-1
-                                column = int(position[1])-1
-                                protection_enemy_pieces[row][column] += 1
+                row = int(convert_file(position[0])) - 1
+                column = int(position[1]) - 1  # do -1 bc starts at 1
+                if protection_all_pieces[row][column] == 0:
+                    protection_all_pieces[row][column] += 500
 
             print("ENEMY PROTECTION (USER PROTECTION)")
             for i in range(8):
-                print(protection_enemy_pieces[i])
+                print(protection_all_pieces[i])
 
             print("END")
+
+            # Checkpoint: Make the attack table
 
             # to quit the loop when the move has been made, because we do not need to search for another move anymore
             skip = False
