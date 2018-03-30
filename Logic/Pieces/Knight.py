@@ -18,6 +18,48 @@ class Knight(Pieces):
         Pieces.__init__(self, position, color,"N")
         add_piece_location(position, self)
 
+    def moves_attack(self):
+        moves = list()  # List of possible moves
+        file_pos = int(convert_file(self.position[0]))
+        rank_pos = int(self.position[1])
+
+        """
+        Check for all the position where the Knight could go. is_space_available check in Chessboard
+        """
+        if rank_pos + 2 <= 8:
+            if file_pos + 1 <= 8 and position_status(self, str(convert_file(file_pos + 1)) + str(rank_pos + 2)) == 1:
+                file_letter = convert_file(file_pos + 1)
+                moves.append(file_letter + str(rank_pos + 2))
+            if file_pos - 1 > 0 and position_status(self, str(convert_file(file_pos - 1)) + str(rank_pos + 2)) == 1:
+                file_letter = convert_file(file_pos - 1)
+                moves.append(file_letter + str(rank_pos + 2))
+
+        if rank_pos - 2 > 0:
+            if file_pos + 1 <= 8 and position_status(self, str(convert_file(file_pos + 1)) + str(rank_pos - 2)) == 1:
+                file_letter = convert_file(file_pos + 1)
+                moves.append(file_letter + str(rank_pos - 2))
+            if file_pos - 1 > 0 and position_status(self, str(convert_file(file_pos - 1)) + str(rank_pos - 2)) == 1:
+                file_letter = convert_file(file_pos - 1)
+                moves.append(file_letter + str(rank_pos - 2))
+
+        if file_pos + 2 <= 8:
+            if rank_pos + 1 <= 8 and position_status(self, str(convert_file(file_pos + 2)) + str(rank_pos + 1)) == 1:
+                file_letter = convert_file(file_pos + 2)
+                moves.append(file_letter + str(rank_pos + 1))
+            if rank_pos - 1 > 0 and position_status(self, str(convert_file(file_pos + 2)) + str(rank_pos - 1)) == 1:
+                file_letter = convert_file(file_pos + 2)
+                moves.append(file_letter + str(rank_pos - 1))
+
+        if file_pos - 2 > 0:
+            if rank_pos + 1 <= 8 and position_status(self, str(convert_file(file_pos - 2)) + str(rank_pos + 1)) == 1:
+                file_letter = convert_file(file_pos - 2)
+                moves.append(file_letter + str(rank_pos + 1))
+            if rank_pos - 1 > 0 and position_status(self, str(convert_file(file_pos - 2)) + str(rank_pos - 1)) == 1:
+                file_letter = convert_file(file_pos - 2)
+                moves.append(file_letter + str(rank_pos - 1))
+
+        return moves
+
     def moves_blocked(self):
         moves = list()  # List of possible moves
         file_pos = int(convert_file(self.position[0]))
@@ -27,10 +69,10 @@ class Knight(Pieces):
         Check for all the position where the Knight could go. is_space_available check in Chessboard
         """
         if rank_pos + 2 <= 8:
-            if file_pos + 1 <= 8 and position_status(self, str(convert_file(file_pos+1))+str(rank_pos+2)):
+            if file_pos + 1 <= 8 and position_status(self, str(convert_file(file_pos+1))+str(rank_pos+2)) == -1:
                 file_letter = convert_file(file_pos + 1)
                 moves.append(file_letter + str(rank_pos + 2))
-            if file_pos - 1 > 0 and position_status(self, str(convert_file(file_pos-1))+str(rank_pos+2)):
+            if file_pos - 1 > 0 and position_status(self, str(convert_file(file_pos-1))+str(rank_pos+2)) == -1:
                 file_letter = convert_file(file_pos - 1)
                 moves.append(file_letter + str(rank_pos + 2))
 
