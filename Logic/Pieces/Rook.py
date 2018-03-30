@@ -21,6 +21,13 @@ class Rook(Pieces):
         Pieces.__init__(self,position,color,"R")
         add_piece_location(position, self)
 
+    def moves_attack(self):
+        return [y for x in [line_right_attack(self),
+                            line_top_attack(self),
+                            line_left_attack(self),
+                            line_bottom_attack(self)]
+                for y in x]
+
     def moves_blocked(self):
         return [y for x in [line_right_blocked(self),
                            line_top_blocked(self),

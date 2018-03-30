@@ -23,6 +23,17 @@ class Queen(Pieces):
         Pieces.__init__(self, position, color, "Q")
         add_piece_location(position, self)
 
+    def moves_attack(self):
+        return [y for x in [diagonal_top_right_attack(self),
+                            diagonal_top_left_attack(self),
+                            diagonal_bottom_left_attack(self),
+                            diagonal_bottom_right_attack(self),
+                            line_right_attack(self),
+                            line_top_attack(self),
+                            line_left_attack(self),
+                            line_bottom_attack(self)]
+                for y in x]
+
     def moves_blocked(self):
         return [y for x in [diagonal_top_right_blocked(self),
                             diagonal_top_left_blocked(self),

@@ -101,7 +101,28 @@ class Pawn(Pieces):
 
         return moves
 
+    def moves_attack(self):
+        file_pos = int(convert_file(self.position[0]))
+        rank_pos = int(self.position[1])
 
+        possible_diagonals_attacked = []
+        if self.COLOR == 0:
+            if file_pos - 1 > 0 and rank_pos + 1 <= 8 and Pawn.possibility_of_capturing(file_pos - 1, rank_pos + 1,
+                                                                                         self.COLOR):
+                possible_diagonals_attacked.append(convert_file(file_pos - 1) + str(rank_pos + 1))
+            if file_pos + 1 <= 8 and rank_pos + 1 <= 8 and Pawn.possibility_of_capturing(file_pos + 1, rank_pos + 1,
+                                                                                          self.COLOR):
+                possible_diagonals_attacked.append(convert_file(file_pos + 1) + str(rank_pos + 1))
+
+        elif self.COLOR == 1:
+            if file_pos - 1 > 0 and rank_pos - 1 > 0 and Pawn.possibility_of_capturing(file_pos - 1, rank_pos - 1,
+                                                                                        self.COLOR):
+                possible_diagonals_attacked.append(convert_file(file_pos - 1) + str(rank_pos - 1))
+            if file_pos + 1 <= 8 and rank_pos - 1 > 0 and Pawn.possibility_of_capturing(file_pos + 1, rank_pos - 1,
+                                                                                         self.COLOR):
+                possible_diagonals_attacked.append(convert_file(file_pos + 1) + str(rank_pos - 1))
+
+        return possible_diagonals_attacked
 
 
 

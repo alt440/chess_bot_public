@@ -22,6 +22,13 @@ class Bishop(Pieces):
         Pieces.__init__(self, position, color,"B")
         add_piece_location(position, self)
 
+    def moves_attack(self):
+        return [y for x in [diagonal_top_right_attack(self),
+                            diagonal_top_left_attack(self),
+                            diagonal_bottom_left_attack(self),
+                            diagonal_bottom_right_attack(self)]
+                for y in x]
+
     def moves_blocked(self):
         return [y for x in [diagonal_top_right_blocked(self),
                             diagonal_top_left_blocked(self),

@@ -159,6 +159,7 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
             print("END")
 
             # Checkpoint: Make the attack table
+            
 
             # to quit the loop when the move has been made, because we do not need to search for another move anymore
             skip = False
