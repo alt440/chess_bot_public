@@ -3,11 +3,26 @@ from White import *
 from Black import *
 from Chessboard import *
 
+"""
+NOTE: Missing analyzing check, AND prediction of moves (especially chess), AND counterattacks, AND least worst move
+scenario (where there is no protected moves to be done, so we seek moves that dont get our pieces out of the game).
+
+"""
+
+
 class AI():
     """
 movesAI will contain second level moves. That is, moves that would be available after one move has been made.
 It will try every type of move from the original array, and evaluate them with a system of points. The most points
 a move has, the most convenient it is to make that move.
+
+    In this code, there are 4 arrays being produced. One will look at where the next move should be placed in order
+    to be the most protected.
+    Another will look at the attack possibilities.
+    Another will identify how many pieces protect each piece.
+    Calculations will be made in order to know if attack or defense is preferred.
+    Preferably, we attack. If we attack, we want to ensure we are protected once we move. The number of pieces protecting
+    the move vs the number of pieces protecting the enemy will determine if we attack.
     """
     movesAI = []
     moves_points = []
@@ -91,6 +106,13 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
         
         """
 
+        """
+            For looking a move ahead, remove all instances that gets the other piece killed (stupid moves), which result
+            in a status 500 (which means unprotected), unless it affects the king.
+            
+            Could look only at next moves that causes checks for now
+        """
+
 
         if colorAI == 0:
             # White
@@ -169,6 +191,7 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
             # I need all the possible attack moves. Integer put on the position the piece is attacking (depending on
             # number of pieces that will protect it when it moves to attack the piece)
             # to find out if pieces can protect, number at position > 1.
+            # if the piece has a negative value on it, then it can be attacked.
             attack_array_pieces_all = []
             for i in range(len(White.white_pieces)):
                 attack_array_pieces = (White.white_pieces[i].moves_attack())
@@ -178,6 +201,64 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
                     column = int(attack_array_pieces[j][1]) - 1  # do -1 bc starts at 1
                     print(str(attack_array_pieces[j][0])+str(column+1)+' position at which we move with '+White.white_pieces[i].name+' at '+White.white_pieces[i].position)
                     attack_array[row][column] += 1
+
+            # looking for opposite possible attacks
+
+            # has_move if we have to make a move to protect king from check
+            has_move = False
+            for i in range(len(Black.black_pieces)):
+                attack_array_pieces = Black.black_pieces[i].moves_attack()
+                for j in range(len(attack_array_pieces)):
+                    row = int(convert_file(attack_array_pieces[j][0])) - 1
+                    column = int(attack_array_pieces[j][1]) - 1
+
+                    # checking for king position to see if in check
+                    rowKing = int(convert_file(White.white_pieces[0].position[0])) - 1
+                    columnKing = int(White.white_pieces[0].position[1]) - 1
+                    if row is rowKing and column is columnKing and not has_move:
+                        attack_array[row][column] -= 666    # condition 666 for check or checkmate
+                        # make_move here
+                        """
+                        In this part I generate a new array that looks at every position that the other player has taken
+                        control over (black_moves). This will allow the AI to find a position where it can displace its 
+                        king to. Otherwise, it tries to protect the king with another piece. This will be done by 
+                        looking into white_moves and finding any spot between piece and king
+                        """
+                        possible_black_moves_array = [[0 for yA in range(8)] for xA in range(8)]
+                        # the set_to_king variable is the whole diagonal/line or just one move that another piece must
+                        # block.
+                        set_to_king = []
+                        for k in range(len(black_pieces_moves)):
+                            for l in range(len(black_pieces_moves[k])):
+                                row = int(convert_file(black_pieces_moves[k][l][0])) - 1
+                                column = int(black_pieces_moves[k][l][1]) - 1
+                                possible_black_moves_array[row][column] = -1
+                                # also take in the set of moves that include the position of our king
+                                if row is rowKing and column is columnKing:
+                                    print("has line to target")
+                                    print(black_pieces_moves[k])    # isolate the moves to block!!!!!!!!!!!!!!!!!!!!!!
+                                    set_to_king = black_pieces_moves[k]
+
+                        avoiding_check_moves = moves_king_AI(White.white_pieces[0], possible_black_moves_array)
+                        if len(avoiding_check_moves) > 0:
+                            make_move(White.white_pieces[0], avoiding_check_moves[0], Black.black_pieces)
+                            has_move = True
+                        else:
+                            # try hiding the king
+                            for k in range(len(set_to_king)):
+                                for l in range(len(white_pieces_moves)):
+                                    # find a piece that has one move at one of the positions in set_to_king
+                                    print(white_pieces_moves[l])
+                                    if set_to_king[k][0] is white_pieces_moves[l][0] and \
+                                            set_to_king[k][1] is white_pieces_moves[l][1]:
+                                        make_move(White.white_pieces[l], set_to_king[k], Black.black_pieces)
+                                        has_move = True
+
+                        if not has_move:
+                            exit("You made me checkmate mate")
+
+                    else:
+                        attack_array[row][column] -= 1
 
             print("ATTACK ARRAY")
             for i in range(8):
@@ -272,6 +353,10 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
                 AI.max_value = protection_array_values[row][column]
         return 0
 
+    @staticmethod
+    def protect_king():
+        return 0
+
 
 """
 #should include the looking ahead of 2 moves
@@ -295,3 +380,63 @@ def AImove(color):
             else:
                 negative near 0
 """
+
+
+def moves_king_AI(self, black_moves_array_8x8):
+    """
+    Returns the list of possible moves for the King.
+    The King opposite parameter will be put with the tables of White and Black that easily refer to it.
+
+    :return: List of possible moves
+    :rtype list
+    """
+
+    moves = list()  # List of possible moves
+    file_pos = int(convert_file(self.position[0]))  # letters: Columns
+    rank_pos = int(self.position[1])  # rows
+
+    """
+    Check for all the position where the King could go.
+    """
+    if file_pos + 1 <= 8:
+        if rank_pos + 1 <= 8 and is_space_available(file_pos + 1, rank_pos + 1, self.COLOR):
+            if black_moves_array_8x8[file_pos + 1][rank_pos + 1] != -1:
+                moves.append(convert_file(file_pos + 1) + str(rank_pos + 1))
+        if rank_pos - 1 > 0 and is_space_available(file_pos + 1, rank_pos - 1, self.COLOR):
+            if black_moves_array_8x8[file_pos + 1][rank_pos - 1] != -1:
+                moves.append(convert_file(file_pos + 1) + str(rank_pos - 1))
+        if is_space_available(file_pos + 1, rank_pos, self.COLOR):
+            if black_moves_array_8x8[file_pos + 1][rank_pos] != -1:
+                moves.append(convert_file(file_pos + 1) + str(rank_pos))
+
+    if file_pos - 1 > 0:
+        if rank_pos + 1 <= 8 and is_space_available(file_pos - 1, rank_pos + 1, self.COLOR):
+            if black_moves_array_8x8[file_pos - 1][rank_pos + 1] != -1:
+                moves.append(convert_file(file_pos - 1) + str(rank_pos + 1))
+        if rank_pos - 1 > 0 and is_space_available(file_pos - 1, rank_pos - 1, self.COLOR):
+            if black_moves_array_8x8[file_pos - 1][rank_pos - 1] != -1:
+                moves.append(convert_file(file_pos - 1) + str(rank_pos - 1))
+        if is_space_available(file_pos - 1, rank_pos, self.COLOR):
+            if black_moves_array_8x8[file_pos - 1][rank_pos] != -1:
+                moves.append(convert_file(file_pos - 1) + str(rank_pos))
+
+    if rank_pos + 1 <= 8 and is_space_available(file_pos, rank_pos + 1, self.COLOR):
+        if black_moves_array_8x8[file_pos][rank_pos + 1] != -1:
+            moves.append(convert_file(file_pos) + str(rank_pos + 1))
+
+    if rank_pos - 1 > 0 and is_space_available(file_pos, rank_pos - 1, self.COLOR):
+        if black_moves_array_8x8[file_pos][rank_pos - 1] != -1:
+            moves.append(convert_file(file_pos) + str(rank_pos - 1))
+
+    return moves
+
+"""
+This method is used for determining which piece has access to the position. It looks into all
+the diagonals and lines. Any other moves cannot be blocked and must be avoided. (Ex. Pawn and Knight)
+"""
+def piece_moves(position_king):
+    # Conditional statement follows to know which method has the position_king in it (is it top_diagonal,
+    # bottom_diagonal, ...?)
+    return 0
+
+

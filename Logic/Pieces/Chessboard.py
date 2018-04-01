@@ -80,6 +80,7 @@ def is_space_available(file_pos, rank_pos, color):
 """
 Makes the move considering the move is already legit.
 Problem with piece: can sometimes be None??
+array_moves_from_opposite_color is the array of black or white pieces. do not confuse.
 """
 def make_move(piece, next_position, array_moves_from_opposite_color):
     del piece_location[piece.position]
