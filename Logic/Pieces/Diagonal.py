@@ -49,6 +49,8 @@ def diagonal_top_right_blocked(self):
             new_pos = convert_file(x + i) + str(y + i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
+            if pos_status == 1:
+                break
             if pos_status == -1:
                 diagonal.append(new_pos)
                 break
@@ -67,6 +69,8 @@ def diagonal_top_right_attack(self):
             new_pos = convert_file(x + i) + str(y + i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
+            if pos_status == -1:
+                break
             if pos_status == 1:
                 diagonal.append(new_pos)
                 break
@@ -111,6 +115,8 @@ def diagonal_top_left_blocked(self):
             new_pos = convert_file(x - i) + str(y + i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
+            if pos_status == 1:
+                break
             if pos_status == -1:
                 diagonal.append(new_pos)
                 break
@@ -129,6 +135,8 @@ def diagonal_top_left_attack(self):
             new_pos = convert_file(x - i) + str(y + i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
+            if pos_status == -1:
+                break
             if pos_status == 1:
                 diagonal.append(new_pos)
                 break
@@ -173,6 +181,8 @@ def diagonal_bottom_left_blocked(self):
             new_pos = convert_file(x - i) + str(y - i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
+            if pos_status == 1:
+                break
             if pos_status == -1:
                 diagonal.append(new_pos)
                 break
@@ -191,6 +201,8 @@ def diagonal_bottom_left_attack(self):
             new_pos = convert_file(x - i) + str(y - i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
+            if pos_status == -1:
+                break
             if pos_status == 1:
                 diagonal.append(new_pos)
                 break
@@ -235,6 +247,8 @@ def diagonal_bottom_right_blocked(self):
             new_pos = convert_file(x + i) + str(y - i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
+            if pos_status == 1:
+                break
             if pos_status == -1:
                 diagonal.append(new_pos)
                 break
@@ -253,6 +267,8 @@ def diagonal_bottom_right_attack(self):
             new_pos = convert_file(x + i) + str(y - i)
             pos_status = position_status(self, new_pos)
             # Verify if the piece can go there
+            if pos_status == -1:
+                break
             if pos_status == 1:
                 diagonal.append(new_pos)
                 break

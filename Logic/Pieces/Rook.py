@@ -30,9 +30,9 @@ class Rook(Pieces):
 
     def moves_blocked(self):
         return [y for x in [line_right_blocked(self),
-                           line_top_blocked(self),
-                           line_left_blocked(self),
-                           line_bottom_blocked(self)]
+                            line_top_blocked(self),
+                            line_left_blocked(self),
+                            line_bottom_blocked(self)]
                 for y in x]
 
     def moves(self):

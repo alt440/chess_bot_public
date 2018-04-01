@@ -79,6 +79,7 @@ def is_space_available(file_pos, rank_pos, color):
 
 """
 Makes the move considering the move is already legit.
+Problem with piece: can sometimes be None??
 """
 def make_move(piece, next_position, array_moves_from_opposite_color):
     del piece_location[piece.position]
@@ -87,7 +88,7 @@ def make_move(piece, next_position, array_moves_from_opposite_color):
     """
         We must also consider the removal of the other piece at that position once it has been captured
     """
-    if not piece_location_chessboard_view[int(convert_file(next_position[0]))-1][int(next_position[1])-1] == None:
+    if not piece_location_chessboard_view[int(convert_file(next_position[0]))-1][int(next_position[1])-1] is None:
         array_moves_from_opposite_color.remove(piece_location_chessboard_view[int(convert_file(next_position[0]))-1][int(next_position[1])-1])
 
     """

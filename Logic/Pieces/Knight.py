@@ -7,6 +7,7 @@ class Knight(Pieces):
     Represent the pieces of type Knight.
     """
     name = 'Knight'
+    VALUE = 30
 
     def __init__(self, position, color):
         """

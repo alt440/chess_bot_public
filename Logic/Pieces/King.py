@@ -6,6 +6,7 @@ class King(Pieces):
     Represent the pieces of type King.
     """
     name = 'King'
+    VALUE = 100
 
     def __init__(self, position, color):
         """

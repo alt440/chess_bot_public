@@ -4,6 +4,7 @@ from Pieces import *
 class Pawn(Pieces):
 
     name = 'Pawn'
+    VALUE = 10
 
     def __init__(self, position, color):
         Pieces.__init__(self, position, color,"P")
