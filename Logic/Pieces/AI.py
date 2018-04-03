@@ -2,6 +2,7 @@ from MovesCollector import *
 from White import *
 from Black import *
 from Chessboard import *
+from AI_methods import *
 
 """
 NOTE: Missing analyzing check, AND prediction of moves (especially chess), AND counterattacks, AND least worst move
@@ -206,59 +207,81 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
 
             # has_move if we have to make a move to protect king from check
             has_move = False
+
+            # possible moves stored in this array
+            possible_black_moves_array = [[0 for yA in range(8)] for xA in range(8)]
             for i in range(len(Black.black_pieces)):
-                attack_array_pieces = Black.black_pieces[i].moves_attack()
+                if i == 0:
+                    attack_array_pieces = Black.black_pieces[i].moves(White.white_pieces[0])
+                else:
+                    attack_array_pieces = Black.black_pieces[i].moves()
                 for j in range(len(attack_array_pieces)):
                     row = int(convert_file(attack_array_pieces[j][0])) - 1
                     column = int(attack_array_pieces[j][1]) - 1
 
+                    possible_black_moves_array[row][column] -= 1
+
+            for i in range(len(possible_black_moves_array)):
+                print(possible_black_moves_array[i])
+
+            for i in range(len(possible_black_moves_array)):
+                for j in range(len(possible_black_moves_array[i])):
                     # checking for king position to see if in check
-                    rowKing = int(convert_file(White.white_pieces[0].position[0])) - 1
-                    columnKing = int(White.white_pieces[0].position[1]) - 1
-                    if row is rowKing and column is columnKing and not has_move:
-                        attack_array[row][column] -= 666    # condition 666 for check or checkmate
-                        # make_move here
-                        """
-                        In this part I generate a new array that looks at every position that the other player has taken
-                        control over (black_moves). This will allow the AI to find a position where it can displace its 
-                        king to. Otherwise, it tries to protect the king with another piece. This will be done by 
-                        looking into white_moves and finding any spot between piece and king
-                        """
-                        possible_black_moves_array = [[0 for yA in range(8)] for xA in range(8)]
-                        # the set_to_king variable is the whole diagonal/line or just one move that another piece must
-                        # block.
-                        set_to_king = []
-                        for k in range(len(black_pieces_moves)):
-                            for l in range(len(black_pieces_moves[k])):
-                                row = int(convert_file(black_pieces_moves[k][l][0])) - 1
-                                column = int(black_pieces_moves[k][l][1]) - 1
-                                possible_black_moves_array[row][column] = -1
-                                # also take in the set of moves that include the position of our king
-                                if row is rowKing and column is columnKing:
-                                    print("has line to target")
-                                    print(black_pieces_moves[k])    # isolate the moves to block!!!!!!!!!!!!!!!!!!!!!!
-                                    set_to_king = black_pieces_moves[k]
+                    if possible_black_moves_array[i][j] == -1:
+                        row = i
+                        column = j
+                        rowKing = int(convert_file(White.white_pieces[0].position[0])) - 1
+                        columnKing = int(White.white_pieces[0].position[1]) - 1
 
-                        avoiding_check_moves = moves_king_AI(White.white_pieces[0], possible_black_moves_array)
-                        if len(avoiding_check_moves) > 0:
-                            make_move(White.white_pieces[0], avoiding_check_moves[0], Black.black_pieces)
-                            has_move = True
-                        else:
-                            # try hiding the king
-                            for k in range(len(set_to_king)):
-                                for l in range(len(white_pieces_moves)):
-                                    # find a piece that has one move at one of the positions in set_to_king
-                                    print(white_pieces_moves[l])
-                                    if set_to_king[k][0] is white_pieces_moves[l][0] and \
-                                            set_to_king[k][1] is white_pieces_moves[l][1]:
-                                        make_move(White.white_pieces[l], set_to_king[k], Black.black_pieces)
-                                        has_move = True
+                        if row is rowKing and column is columnKing and not has_move:
+                            attack_array[row][column] -= 666    # condition 666 for check or checkmate
+                            # make_move here
+                            """
+                            In this part I generate a new array that looks at every position that the other player has taken
+                            control over (black_moves). This will allow the AI to find a position where it can displace its 
+                            king to. Otherwise, it tries to protect the king with another piece. This will be done by 
+                            looking into white_moves and finding any spot between piece and king
+                            """
+                            # possible_black_moves_array = [[0 for yA in range(8)] for xA in range(8)]
+                            # the set_to_king variable is the whole diagonal/line or just one move that another piece must
+                            # block.
+                            set_to_king = []
+                            for k in range(len(black_pieces_moves)):
+                                for l in range(len(black_pieces_moves[k])):
+                                    row = int(convert_file(black_pieces_moves[k][l][0])) - 1
+                                    column = int(black_pieces_moves[k][l][1]) - 1
+                                    # possible_black_moves_array[row][column] = -1
+                                    # also take in the set of moves that include the position of our king
+                                    if row is rowKing and column is columnKing:
+                                        print("has line to target")
+                                        # print(black_pieces_moves[k])    # isolate the moves to block!!!!!!!!!!!!!!!!!!!!!!
+                                        set_to_king = piece_moves(k, White.white_pieces[0])
+                                        print(set_to_king)
 
-                        if not has_move:
-                            exit("You made me checkmate mate")
+                            avoiding_check_moves = moves_king_AI(White.white_pieces[0], possible_black_moves_array)
+                            if len(avoiding_check_moves) > 0:
+                                make_move(White.white_pieces[0], avoiding_check_moves[0], Black.black_pieces)
+                                has_move = True
+                            else:
+                                # try hiding the king
+                                for k in range(len(set_to_king)):
+                                    for l in range(1,len(white_pieces_moves)):
+                                        for m in range(len(white_pieces_moves[l])):
+                                            # find a piece that has one move at one of the positions in set_to_king
+                                            if has_move:
+                                                break
+                                            # print(white_pieces_moves[l])
+                                            if white_pieces_moves[l][m] is None or set_to_king[k] is None:
+                                                continue
 
-                    else:
-                        attack_array[row][column] -= 1
+                                            # print(str(set_to_king[k])+' that is compared to set to king')
+                                            if set_to_king[k][0] is white_pieces_moves[l][m][0] and \
+                                                    set_to_king[k][1] is white_pieces_moves[l][m][1]:
+                                                make_move(White.white_pieces[l], set_to_king[k], Black.black_pieces)
+                                                has_move = True
+
+                            if not has_move:
+                                exit("You made me checkmate mate")
 
             print("ATTACK ARRAY")
             for i in range(8):
@@ -267,7 +290,6 @@ These are the first indexes of the 2d arrays. The length of the 2nd dimension de
 
             # attack or protect??
             # first look at attack. can it attack and win?
-            has_move = False
             for i in range(8):
                 for j in range(8):
                     if attack_array[i][j] != 0 and not has_move:
@@ -397,46 +419,50 @@ def moves_king_AI(self, black_moves_array_8x8):
 
     """
     Check for all the position where the King could go.
+    When we check for the black_moves_array_8x8 indication at the specified position, we subtract 1 more
+    because the array index starts at 0 (unlike chessboard which starts at 1)
     """
     if file_pos + 1 <= 8:
         if rank_pos + 1 <= 8 and is_space_available(file_pos + 1, rank_pos + 1, self.COLOR):
-            if black_moves_array_8x8[file_pos + 1][rank_pos + 1] != -1:
+            if black_moves_array_8x8[file_pos + 1 - 1][rank_pos + 1 - 1] == 0:
+                print(str(file_pos+1)+' '+str(rank_pos+1)+' king can go there '+str(black_moves_array_8x8[file_pos][rank_pos]))
                 moves.append(convert_file(file_pos + 1) + str(rank_pos + 1))
         if rank_pos - 1 > 0 and is_space_available(file_pos + 1, rank_pos - 1, self.COLOR):
-            if black_moves_array_8x8[file_pos + 1][rank_pos - 1] != -1:
+            if black_moves_array_8x8[file_pos + 1 - 1][rank_pos - 1 - 1] == 0:
+                print(str(file_pos + 1) + ' ' + str(rank_pos - 1) + ' king can go there')
                 moves.append(convert_file(file_pos + 1) + str(rank_pos - 1))
         if is_space_available(file_pos + 1, rank_pos, self.COLOR):
-            if black_moves_array_8x8[file_pos + 1][rank_pos] != -1:
+            if black_moves_array_8x8[file_pos + 1 - 1][rank_pos - 1] == 0:
+                print(str(file_pos + 1) + ' ' + str(rank_pos) + ' king can go there')
                 moves.append(convert_file(file_pos + 1) + str(rank_pos))
 
     if file_pos - 1 > 0:
         if rank_pos + 1 <= 8 and is_space_available(file_pos - 1, rank_pos + 1, self.COLOR):
-            if black_moves_array_8x8[file_pos - 1][rank_pos + 1] != -1:
+            if black_moves_array_8x8[file_pos - 1 - 1][rank_pos + 1 - 1] == 0:
+                print(str(file_pos - 1) + ' ' + str(rank_pos + 1) + ' king can go there')
                 moves.append(convert_file(file_pos - 1) + str(rank_pos + 1))
         if rank_pos - 1 > 0 and is_space_available(file_pos - 1, rank_pos - 1, self.COLOR):
-            if black_moves_array_8x8[file_pos - 1][rank_pos - 1] != -1:
+            if black_moves_array_8x8[file_pos - 1 - 1][rank_pos - 1 - 1] == 0:
+                print(str(file_pos - 1) + ' ' + str(rank_pos - 1) + ' king can go there')
                 moves.append(convert_file(file_pos - 1) + str(rank_pos - 1))
         if is_space_available(file_pos - 1, rank_pos, self.COLOR):
-            if black_moves_array_8x8[file_pos - 1][rank_pos] != -1:
+            if black_moves_array_8x8[file_pos - 1 - 1][rank_pos - 1] == 0:
+                print(str(file_pos - 1) + ' ' + str(rank_pos) + ' king can go there')
                 moves.append(convert_file(file_pos - 1) + str(rank_pos))
 
     if rank_pos + 1 <= 8 and is_space_available(file_pos, rank_pos + 1, self.COLOR):
-        if black_moves_array_8x8[file_pos][rank_pos + 1] != -1:
+        if black_moves_array_8x8[file_pos - 1][rank_pos + 1 - 1] == 0:
+            print(str(file_pos) + ' ' + str(rank_pos + 1) + ' king can go there')
             moves.append(convert_file(file_pos) + str(rank_pos + 1))
 
     if rank_pos - 1 > 0 and is_space_available(file_pos, rank_pos - 1, self.COLOR):
-        if black_moves_array_8x8[file_pos][rank_pos - 1] != -1:
+        if black_moves_array_8x8[file_pos - 1][rank_pos - 1 - 1] == 0:
+            print(str(file_pos) + ' ' + str(rank_pos - 1) + ' king can go there')
             moves.append(convert_file(file_pos) + str(rank_pos - 1))
 
     return moves
 
-"""
-This method is used for determining which piece has access to the position. It looks into all
-the diagonals and lines. Any other moves cannot be blocked and must be avoided. (Ex. Pawn and Knight)
-"""
-def piece_moves(position_king):
-    # Conditional statement follows to know which method has the position_king in it (is it top_diagonal,
-    # bottom_diagonal, ...?)
-    return 0
+
+
 
 

@@ -83,6 +83,7 @@ Problem with piece: can sometimes be None??
 array_moves_from_opposite_color is the array of black or white pieces. do not confuse.
 """
 def make_move(piece, next_position, array_moves_from_opposite_color):
+    print(piece.position+''+next_position)
     del piece_location[piece.position]
     piece_location_chessboard_view[int(convert_file(piece.position[0])) - 1][int(piece.position[1]) - 1] = None
 
