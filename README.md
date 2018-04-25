@@ -20,3 +20,4 @@ When asked to put in a move, only put the initial and the final location of the 
 check for the validity of the move.
 
 Note: There is an error when capturing other pieces, I did not have enough time to look into it.
+Note2: The most recent version of the bot is found under the branch AI_KingPredictingCheck
